@@ -1,0 +1,46 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the 'index' of the site/application.
+// -----------------------------------------------------------------------------
+
+/* Common styles */
+.body {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+.wrapper {
+    width: 100%;
+    margin: 0 auto;
+    max-width: $desktop;
+    padding: 0 20px;
+    box-sizing: border-box;
+    @media screen and (max-width: $mobile) {
+        // styles for mobile
+        width: 100%;
+        margin: 0;
+        min-width: $mobile;
+    }
+}
+
+.active {
+    background-color: $activeBgColor;
+}
+
+
+.header-container {
+    //
+}
+
+.main-container {
+    //
+}
+
+.footer-container {
+    .credits {
+        text-align: center;
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 14px;
+    }
+}

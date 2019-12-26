@@ -1,0 +1,20 @@
+// 1. Abstracts (Configuration and helpers)
+@import "./abstracts/variables";
+
+// 2. Vendors
+@import "./vendors/_normalize.css";
+
+// 3. Base
+@import "./base/fonts";
+
+// 4. Components
+// @import "./components/button";
+// @import "./components/input";
+// @import "./components/checkbox";
+
+// 5. Layouts (Layout-related sections)
+@import "./layout/index";
+
+// 6. Pages (Page-specific styles)
+
+// 7. Themes

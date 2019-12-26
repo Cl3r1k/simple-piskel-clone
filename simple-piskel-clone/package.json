@@ -1,0 +1,63 @@
+{
+    "name": "simple-piskel-clone",
+    "version": "1.0.0",
+    "description": "Simple Piskel-clone",
+    "main": "src/index.js",
+    "author": "Cl3r1k",
+    "license": "ISC",
+    "scripts": {
+        "build": "webpack",
+        "start": "webpack --watch",
+        "lint": "eslint --debug src/",
+        "lint:fix": "eslint --fix --debug ./src",
+        "prettier": "prettier --write src/**/*.js",
+        "test": "jest",
+        "coverage": "jest --coverage",
+        "coverage:full": "jest --coverage --coverage-reporters=lcov"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.(js|jsx)": [
+            "npm run lint:fix",
+            "git add"
+        ]
+    },
+    "keywords": [
+        "javascript",
+        "webpack",
+        "sass"
+    ],
+    "dependencies": {
+        "core-js": "^3.5.0",
+        "regenerator-runtime": "^0.13.3"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.7.5",
+        "@babel/preset-env": "^7.7.6",
+        "babel-eslint": "^10.0.3",
+        "babel-loader": "^8.0.6",
+        "css-loader": "^3.2.0",
+        "eslint": "^6.6.0",
+        "eslint-config-airbnb-base": "^14.0.0",
+        "eslint-config-prettier": "^6.5.0",
+        "eslint-loader": "^3.0.2",
+        "eslint-plugin-import": "^2.18.2",
+        "eslint-plugin-prettier": "^3.1.1",
+        "extract-text-webpack-plugin": "^4.0.0-beta.0",
+        "file-loader": "^5.0.2",
+        "husky": "^1.1.2",
+        "jest": "^24.9.0",
+        "lint-staged": "^7.3.0",
+        "node-sass": "^4.12.0",
+        "prettier": "^1.19.1",
+        "sass": "^1.23.3",
+        "sass-loader": "^8.0.0",
+        "style-loader": "^1.0.0",
+        "webpack": "^4.41.2",
+        "webpack-cli": "^3.3.9"
+    }
+}
