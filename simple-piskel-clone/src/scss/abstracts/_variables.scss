@@ -2,16 +2,17 @@
 // This file contains all application-wide Sass variables.
 // -----------------------------------------------------------------------------
 
-$mobile: 320px;
+$mobile: 375px;
 $tablet: 768px;
 $preTablet1020: 1020px;
 $desktop: 1440px;
 $activeBgColor: #bd6aa4;
 $hoverBgColor: #cec8c8;
+$canvasBgColor: #acacac;
 $transitionState: all 0.1s ease-in;
 $boxShadowState: 0px 0px 5px 0px #a9a9a9;
 $boxShadowStateHover: 0px 0px 6px 0px #6b6b6b;
 $backgroundColorStateHover: #a0a0a0;
 
 // Debug color
-$debugColor: #6e8cb9;
+$debugColor: #6eb4b9;

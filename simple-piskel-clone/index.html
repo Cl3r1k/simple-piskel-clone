@@ -11,6 +11,77 @@
     <title>Simple Piskel-clone</title>
 </head>
 
-<body id="idBody" class="body"></body>
+<body id="idBody" class="body">
+    <header class="header-container">
+        <div class="main-menu">
+            <img class="main-menu__icon" src="./assets/images/nav_icon.png" alt="nav icon">
+        </div>
+        <h1 class="header-container__header-text">Simple Piskel-clone</h1>
+        <div class="additional-menu">
+            <button id="idLoginGHButton" class="button-styled">Login with GitHub</button>
+            <img class="additional-menu__icon" src="./assets/images/three_dot_icon.png" alt="additional menu">
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="tools-container">
+            <div class="list-block-styled tools-block">
+                <ul class="list-block-styled__common-list list-block-styled__common-list_tools">
+                    <li id="idFillTool"><img src="./assets/images/fill_icon.png" alt="Fill icon"><span>Fill
+                            bucket</span></li>
+                    <li id="idColorTool"><img src="./assets/images/color_picker_icon.png"
+                            alt="Color picker icon"><span>Color picker</span></li>
+                    <li id="idPencilTool"><img src="./assets/images/pencil_icon.png"
+                            alt="Pencil icon"><span>Pencil</span></li>
+                    <li id="idEraserTool" class="tool-icon tool-icon-eraser"></li>
+                </ul>
+            </div>
+            <div class="list-block-styled colors-block">
+                <ul class="list-block-styled__common-list list-block-styled__common-list_colors">
+                    <li>
+                        <label class="color" for="idCurrentColor">
+                            <span id="idCurrentColorField" class="color-field"></span>
+                            <input type="color" name="currentColor" id="idCurrentColor">
+                            Current color
+                        </label>
+                    </li>
+                    <li>
+                        <label class="color" for="" id="idPreviousColorLabel">
+                            <span id="idPreviousColorField" class="color-field color-field_previous"></span>
+                            Previous color
+                        </label>
+                    </li>
+                    <li>
+                        <label class="color" for="" id="idRedColorLabel">
+                            <span id="idRedColorField" class="color-field color-field_red"></span>
+                            Red color
+                        </label>
+                    </li>
+                    <li>
+                        <label class="color" for="" id="idBlueColorLabel">
+                            <span id="idBlueColorField" class="color-field color-field_blue"></span>
+                            Blue color
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="canvas-container">
+            <canvas class="canvas-main" id="idCanvas" height="512" width="512"></canvas>
+        </div>
+        <div class="canvas-size-container">
+            <div class="list-block-styled pictures-block">
+                <ul class="list-block-styled__common-list list-block-styled__common-list_pictures">
+                    <li id="btnSize32x32"><img src="./assets/images/picture_icon.png"
+                            alt="picture_icon"><span>32x32</span></li>
+                    <li id="btnSize64x64"><img src="./assets/images/picture_icon.png"
+                            alt="picture_icon"><span>64x64</span></li>
+                    <li id="btnSize128x128"><img src="./assets/images/picture_icon.png"
+                            alt="picture_icon"><span>128x128</span></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+</body>
 
 </html>

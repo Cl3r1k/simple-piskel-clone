@@ -2,6 +2,7 @@
 @Repo - `https://github.com/rolling-scopes-school/cl3r1k-RS2019Q3/tree/simple-piskel-clone/simple-piskel-clone`
 @UI_Prototype - `https://www.piskelapp.com/`
 @Prototype - `https://www.piskelapp.com/`
+@Example - `https://piskel-clone-2019-q1.firebaseapp.com/piskel`
 @Demo - `https://cl3r1k-simple-piskel-clone.netlify.com/`
 
 Todo:
@@ -64,14 +65,14 @@ Todo:
       
       `Example`
       You need to provide high level, feature base (what need to score) description. 
-        | Start time  | End time | time spent | feature |
-        |-------------|----------|------------|---------|
-        | May 27      | Jun 6    | 3h         | base structure of the project |
-        | Jun 7       | Jun 7    | 12h        | frame management implementation |
-        | Jun 7       | Jun 7    | 12h        | preview animation implementation |
-        | Jun 8       | Jun 10   | 8h         | keyboard shortcuts implementation |
-        | Jun 11      | Jun 12   | 5h         | layers implementation |
-        | Jun 12      | Jun 12   | 10h        | bug fixing |
+        | Start time  | End time | time spent |                feature                |
+        |-------------|----------|------------|---------------------------------------|
+        | May 27      | Jun 6    | 3h         | base structure of the project         |
+        | Jun 7       | Jun 7    | 12h        | frame management implementation       |
+        | Jun 7       | Jun 7    | 12h        | preview animation implementation      |
+        | Jun 8       | Jun 10   | 8h         | keyboard shortcuts implementation     |
+        | Jun 11      | Jun 12   | 5h         | layers implementation                 |
+        | Jun 12      | Jun 12   | 10h        | bug fixing                            |
         
       Total: 50h
 

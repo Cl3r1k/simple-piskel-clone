@@ -33,7 +33,7 @@ module.exports = {
         'no-param-reassign': 'off', // Is it not our style?
         "radix": "off", // parseInt, parseFloat and radix are switched off. It's not Ok.
 
-        // 'class-methods-use-this': 'off',
+        'class-methods-use-this': 'off',
         // 'prefer-destructuring': 'off',
 
         'prettier/prettier': ['error'],
