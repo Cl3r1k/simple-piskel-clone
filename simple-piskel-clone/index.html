@@ -12,7 +12,7 @@
 </head>
 
 <body id="idBody" class="body">
-    <header class="header-container">
+    <header class="header-container wrapper">
         <div class="main-menu">
             <img class="main-menu__icon" src="./assets/images/nav_icon.png" alt="nav icon">
         </div>
@@ -23,51 +23,48 @@
         </div>
     </header>
 
-    <main class="main-container">
+    <main class="main-container wrapper">
         <div class="tools-container">
-            <div class="list-block-styled tools-block">
-                <ul class="list-block-styled__common-list list-block-styled__common-list_tools">
-                    <li id="idFillTool"><img src="./assets/images/fill_icon.png" alt="Fill icon"><span>Fill
-                            bucket</span></li>
-                    <li id="idColorTool"><img src="./assets/images/color_picker_icon.png"
-                            alt="Color picker icon"><span>Color picker</span></li>
-                    <li id="idPencilTool"><img src="./assets/images/pencil_icon.png"
-                            alt="Pencil icon"><span>Pencil</span></li>
-                    <li id="idEraserTool" class="tool-icon tool-icon-eraser"></li>
-                </ul>
-            </div>
-            <div class="list-block-styled colors-block">
-                <ul class="list-block-styled__common-list list-block-styled__common-list_colors">
-                    <li>
-                        <label class="color" for="idCurrentColor">
-                            <span id="idCurrentColorField" class="color-field"></span>
-                            <input type="color" name="currentColor" id="idCurrentColor">
-                            Current color
-                        </label>
-                    </li>
-                    <li>
-                        <label class="color" for="" id="idPreviousColorLabel">
-                            <span id="idPreviousColorField" class="color-field color-field_previous"></span>
-                            Previous color
-                        </label>
-                    </li>
-                    <li>
-                        <label class="color" for="" id="idRedColorLabel">
-                            <span id="idRedColorField" class="color-field color-field_red"></span>
-                            Red color
-                        </label>
-                    </li>
-                    <li>
-                        <label class="color" for="" id="idBlueColorLabel">
-                            <span id="idBlueColorField" class="color-field color-field_blue"></span>
-                            Blue color
-                        </label>
-                    </li>
-                </ul>
-            </div>
+            <ul class="list-block-styled__common-list list-block-styled__common-list_tools">
+                <li id="idPencilTool" class="tool-icon icon-tool-pen"></li>
+                <li id="idPaintBucket" class="tool-icon icon-tool-paint-bucket"></li>
+                <li id="idEraserTool" class="tool-icon icon-tool-eraser"></li>
+                <li id="idColorPickerTool" class="tool-icon icon-tool-color-picker"></li>
+            </ul>
+            <ul class="list-block-styled__common-list list-block-styled__common-list_colors">
+                <li>
+                    <label class="color" for="idCurrentColor">
+                        <span id="idCurrentColorField" class="color-field"></span>
+                        <input type="color" name="currentColor" id="idCurrentColor">
+                        Current color
+                    </label>
+                </li>
+                <li>
+                    <label class="color" for="" id="idPreviousColorLabel">
+                        <span id="idPreviousColorField" class="color-field color-field_previous"></span>
+                        Previous color
+                    </label>
+                </li>
+                <li>
+                    <label class="color" for="" id="idRedColorLabel">
+                        <span id="idRedColorField" class="color-field color-field_red"></span>
+                        Red color
+                    </label>
+                </li>
+                <li>
+                    <label class="color" for="" id="idBlueColorLabel">
+                        <span id="idBlueColorField" class="color-field color-field_blue"></span>
+                        Blue color
+                    </label>
+                </li>
+            </ul>
         </div>
-        <div class="canvas-container">
-            <canvas class="canvas-main" id="idCanvas" height="512" width="512"></canvas>
+        <div class="columns-wrapper">
+            <div class="frame-column"></div>
+            <div class="canvas-column">
+                <canvas class="canvas-main" id="idCanvas" height="512" width="512"></canvas>
+            </div>
+            <div class="animation-column"></div>
         </div>
         <div class="canvas-size-container">
             <div class="list-block-styled pictures-block">
@@ -82,6 +79,11 @@
             </div>
         </div>
     </main>
+
+    <footer class="footer-container wrapper">
+        <!-- Sticky footer with copyrights -->
+        <p class="credits">Made with coffee by Cl3r1k</p>
+    </footer>
 </body>
 
 </html>

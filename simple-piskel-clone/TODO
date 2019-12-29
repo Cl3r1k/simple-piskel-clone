@@ -3,6 +3,7 @@
 @UI_Prototype - `https://www.piskelapp.com/`
 @Prototype - `https://www.piskelapp.com/`
 @Example - `https://piskel-clone-2019-q1.firebaseapp.com/piskel`
+@Example2 - `http://mixed-pickle.surge.sh/`
 @Demo - `https://cl3r1k-simple-piskel-clone.netlify.com/`
 
 Todo:
@@ -13,8 +14,8 @@ Todo:
       ☐ Tools
         ☐ Pen. Required size is 1 unit. Other unit sizes (2, 3, 4) are optional.
         ☐ Color select (Primary/Secondary)
-        ☐ Paint bucket
-        ☐ Eraser
+        ☐ Paint bucket  <========================================================= CURRENT TASK
+        ✔ Eraser @done(19-12-29 15:58)
         ☐ Stroke (to draw straight lines)
       ☐ Please use Tools in https://www.piskelapp.com/ as an ideal example of what should be done. Use only main functionality without keyboard modifiers (ALT or SHIFT keys)
       ☐ Preview

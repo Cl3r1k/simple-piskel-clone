@@ -1,4 +1,5 @@
 import CanvasFloodFillerClass from './CanvasFloodFillerClass';
+import colors from './settings/colors';
 
 export default class PaletteClass {
   constructor(canvasElement, canvasContext, width, height) {
@@ -11,10 +12,12 @@ export default class PaletteClass {
       this.canvasElement.height = height;
       this.canvasContext.imageSmoothingEnabled = false;
     }
-    this.isFillState = false;
-    this.isChooseColorState = false;
     this.isPencilState = false;
+    this.isFillState = false;
+    this.isEraserState = false;
+    this.isChooseColorState = false;
     this.isDrawing = false;
+    this.isErasing = false;
     this.lastX = 0;
     this.lastY = 0;
     this.pixelSize = 4;
@@ -24,6 +27,7 @@ export default class PaletteClass {
   initCanvasEvents() {
     this.canvasElement.addEventListener('mousemove', evt => {
       this.draw(evt);
+      this.erase(evt);
     });
 
     this.canvasElement.addEventListener('mousedown', evt => {
@@ -38,6 +42,12 @@ export default class PaletteClass {
         this.canvasContext.fillStyle = this.currentColor;
         this.fillCanvas(evt.offsetX, evt.offsetY, this.currentColor);
       }
+      if (this.isEraserState) {
+        this.lastX = Math.floor(evt.offsetX / this.pixelSize);
+        this.lastY = Math.floor(evt.offsetY / this.pixelSize);
+        this.isErasing = true;
+        this.erase(evt);
+      }
       if (this.isChooseColorState) {
         this.setColorAtPixelOnCanvas(evt);
       }
@@ -45,11 +55,13 @@ export default class PaletteClass {
 
     this.canvasElement.addEventListener('mouseup', () => {
       this.isDrawing = false;
+      this.isErasing = false;
       this.saveAppState();
     });
 
     this.canvasElement.addEventListener('mouseout', () => {
       this.isDrawing = false;
+      this.isErasing = false;
     });
   }
 
@@ -74,15 +86,20 @@ export default class PaletteClass {
     this.currentColor = colorVal;
     const currentColorField = document.getElementById('idCurrentColorField');
     currentColorField.style.backgroundColor = this.currentColor;
+    currentColorField.classList.toggle('transparent-color', colorVal === colors.transparentColorRGBA);
     const previousColorField = document.getElementById('idPreviousColorField');
     previousColorField.style.backgroundColor = this.previousColor;
   }
 
-  drawPixel(dx, dy, pxSize) {
-    this.canvasContext.fillRect(dx, dy, pxSize, pxSize);
+  drawPixel(dx, dy, pxSize, canvasContext) {
+    canvasContext.fillRect(dx, dy, pxSize, pxSize);
   }
 
-  drawLineBH(x0, y0, x1, y1) {
+  erasePixel(dx, dy, pxSize, canvasContext) {
+    canvasContext.clearRect(dx, dy, pxSize, pxSize);
+  }
+
+  drawLineBH(x0, y0, x1, y1, pixelSize = 1, canvasContext, callBack) {
     const deltaX = Math.abs(x1 - x0);
     const deltaY = Math.abs(y1 - y0);
 
@@ -91,7 +108,7 @@ export default class PaletteClass {
     let err = deltaX - deltaY;
 
     while (x0 !== x1 || y0 !== y1) {
-      this.drawPixel(x0, y0, 1);
+      callBack(x0, y0, pixelSize, canvasContext);
 
       const err2 = err * 2;
       if (err2 > -deltaY) {
@@ -104,7 +121,7 @@ export default class PaletteClass {
       }
     }
 
-    this.drawPixel(x0, y0, 1);
+    callBack(x0, y0, pixelSize, canvasContext);
   }
 
   // Mode Draw
@@ -115,7 +132,12 @@ export default class PaletteClass {
 
     const newX = Math.floor(evt.offsetX / this.pixelSize);
     const newY = Math.floor(evt.offsetY / this.pixelSize);
-    this.drawLineBH(this.lastX, this.lastY, newX, newY);
+    if (this.currentColor === colors.transparentColorRGBA) {
+      this.drawLineBH(this.lastX, this.lastY, newX, newY, 1, this.canvasContext, this.erasePixel);
+    } else {
+      this.drawLineBH(this.lastX, this.lastY, newX, newY, 1, this.canvasContext, this.drawPixel);
+    }
+
     this.lastX = newX;
     this.lastY = newY;
   }
@@ -128,6 +150,21 @@ export default class PaletteClass {
     canvasFillerInstance.floodFill();
   }
 
+  // Mode Erase
+  erase(evt) {
+    if (!this.isErasing) {
+      return;
+    }
+    const newX = Math.floor(evt.offsetX / this.pixelSize);
+    const newY = Math.floor(evt.offsetY / this.pixelSize);
+    // console.log(`clearRect(${newX}, ${newY}, 1, 1)`);
+    this.drawLineBH(this.lastX, this.lastY, newX, newY, 1, this.canvasContext, this.erasePixel);
+    // this.drawLineBH(this.lastX, this.lastY, newX, newY);
+    this.lastX = newX;
+    this.lastY = newY;
+  }
+
+  // TODO: Improve with transparent color
   // Mode ColorPicker
   setColorAtPixelOnCanvas(evt) {
     const dx = Math.floor(evt.offsetX / this.pixelSize);
@@ -138,41 +175,56 @@ export default class PaletteClass {
   }
 
   setPaletteState(paletteState) {
-    const fillToolEl = document.getElementById('idFillTool');
-    const chooseColorToolEl = document.getElementById('idColorTool');
-    const pencilToolEl = document.getElementById('idPencilTool');
+    const pencilToolElement = document.getElementById('idPencilTool');
+    const fillToolElement = document.getElementById('idPaintBucket');
+    const eraserToolElement = document.getElementById('idEraserTool');
+    const chooseColorToolElement = document.getElementById('idColorPickerTool');
     this.selectedTool = paletteState;
 
     // TODO: Use Urls for each cursor state
     switch (paletteState) {
       // Fill bucket
-      case 0:
-        this.isFillState = true;
-        this.isChooseColorState = false;
+      case 1:
         this.isPencilState = false;
+        this.isFillState = true;
+        this.isEraserState = false;
+        this.isChooseColorState = false;
         this.canvasElement.style.cursor = 'default';
         this.isDrawing = false;
         break;
-      // Choose color
-      case 1:
-        this.isFillState = false;
-        this.isChooseColorState = true;
+      // Eraser
+      case 2:
         this.isPencilState = false;
+        this.isFillState = false;
+        this.isEraserState = true;
+        this.isChooseColorState = false;
+        this.canvasElement.style.cursor = 'crosshair';
+        this.isDrawing = false;
+        break;
+      // Choose color
+      case 3:
+        this.isPencilState = false;
+        this.isFillState = false;
+        this.isEraserState = false;
+        this.isChooseColorState = true;
         this.canvasElement.style.cursor = 'crosshair';
         this.isDrawing = false;
         break;
       // Pencil
+      case 0:
       default:
-        this.isFillState = false;
-        this.isChooseColorState = false;
         this.isPencilState = true;
+        this.isFillState = false;
+        this.isEraserState = false;
+        this.isChooseColorState = false;
         this.canvasElement.style.cursor = 'crosshair';
         break;
     }
 
-    fillToolEl.classList.toggle('active', this.isFillState);
-    chooseColorToolEl.classList.toggle('active', this.isChooseColorState);
-    pencilToolEl.classList.toggle('active', this.isPencilState);
+    pencilToolElement.classList.toggle('active', this.isPencilState);
+    fillToolElement.classList.toggle('active', this.isFillState);
+    eraserToolElement.classList.toggle('active', this.isEraserState);
+    chooseColorToolElement.classList.toggle('active', this.isChooseColorState);
   }
 
   setPixelSize(pxNewSize) {
@@ -233,7 +285,7 @@ export default class PaletteClass {
       const currentColorEl = document.getElementById('idCurrentColor');
       currentColorEl.value = '#00ff00';
       this.currentColor = currentColorEl.value;
-      this.setPaletteState(2);
+      this.setPaletteState(0);
       this.setPixelSize(4);
     }
   }

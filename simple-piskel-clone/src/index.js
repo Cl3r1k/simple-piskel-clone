@@ -4,6 +4,7 @@ import PaletteClass from './js/PaletteClass';
 import AuthClass from './js/AuthClass';
 
 // TODO: Use container handlers for tools, frames and animation, not separate eventListeners
+// TODO: Improve paint/erase fro mouse out case
 
 let paletteClassInstance;
 let authClassInstance;
@@ -12,16 +13,20 @@ const initApp = () => {
   paletteClassInstance.loadAppSate();
   paletteClassInstance.initCanvasEvents();
 
-  document.getElementById('idFillTool').addEventListener('click', () => {
+  document.getElementById('idPencilTool').addEventListener('click', () => {
     paletteClassInstance.setPaletteState(0);
   });
 
-  document.getElementById('idColorTool').addEventListener('click', () => {
+  document.getElementById('idPaintBucket').addEventListener('click', () => {
     paletteClassInstance.setPaletteState(1);
   });
 
-  document.getElementById('idPencilTool').addEventListener('click', () => {
+  document.getElementById('idEraserTool').addEventListener('click', () => {
     paletteClassInstance.setPaletteState(2);
+  });
+
+  document.getElementById('idColorPickerTool').addEventListener('click', () => {
+    paletteClassInstance.setPaletteState(3);
   });
 
   const inputColorEl = document.getElementById('idCurrentColor');

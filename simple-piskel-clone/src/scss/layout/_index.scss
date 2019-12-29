@@ -5,19 +5,15 @@
 /* Common styles */
 .body {
     height: 100vh;
-    // display: grid;
-    // grid-template-rows: auto 1fr auto;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 }
 
 .wrapper {
     width: 100%;
-    margin: 0 auto;
-    max-width: $desktop;
-    // padding: 0 20px;
     box-sizing: border-box;
     @media screen and (max-width: $mobile) {
         // styles for mobile
-        width: 100%;
         margin: 0;
         min-width: $mobile;
     }
@@ -64,12 +60,39 @@
                 opacity: 0.5;
             }
             &.tool-icon {
-                background-color: #3a3a3a;
+                background-color: #4e4e4e;
                 width: 46px;
                 height: 46px;
-                &.tool-icon-eraser {
+                margin: 1px;
+                &:hover {
+                    background-color: #8f8f8f;
+                }
+                &.active {
+                    background-color: #8f8f8f;
+                    &::before {
+                        content: '';
+                        display: inherit;
+                        border: 3px solid red;
+                        width: 100%;
+                        height: 100%;
+                        box-sizing: border-box;
+                    }
+                }
+                &.icon-tool-pen {
+                    background-image: url('../../assets/images/sprites_icons.png');
+                    background-position: -182px -92px;
+                }
+                &.icon-tool-paint-bucket {
+                    background-image: url('../../assets/images/sprites_icons.png');
+                    background-position: -228px -92px;
+                }                
+                &.icon-tool-eraser {
                     background-image: url('../../assets/images/sprites_icons.png');
                     background-position: -46px -228px;
+                }
+                &.icon-tool-color-picker {
+                    background-image: url('../../assets/images/sprites_icons.png');
+                    background-position: -274px 0px;
                 }
             }
             img {
@@ -106,10 +129,12 @@
                 .color-field {
                     width: 20px;
                     height: 20px;
-                    background-color: #00ff00;
                     border: 1px solid #646464;
                     border-radius: 50%;
                     margin-right: 15px;
+                    &.transparent-color {
+                        background-image: url('../../assets/images/empty_color.png');
+                    }
                     &_previous {
                         background-color: #9fad9f;
                     }
@@ -159,9 +184,8 @@
 
 .main-container {
     display: grid;
-    grid-template-columns: 20% 60% 20%;
-    justify-items: center;
-    padding: 70px 50px;
+    grid-template-columns: 15% 1fr 15%;
+    padding: 0 50px;
     @media screen and (max-width: $preTablet1020) {
         grid-template-columns: none;
         padding: 20px;
@@ -170,24 +194,29 @@
         // justify-self: start;
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
+        justify-content: center;
         @media screen and (max-width: $preTablet1020) {
             flex-direction: row;
         }
     }
-    .canvas-container {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        .canvas-main {
-            width: 512px;
-            height: 512px;
-            // background-color: $canvas-bg-color;
-            border: 1px solid #b8b8b8;
-            image-rendering: pixelated;
-            background: url('../../assets/images/grid_template.png');
+    .columns-wrapper {
+        display: grid;
+        grid-template-columns: 20% 1fr 20%;
+        .canvas-column {
+            display: grid;
+            justify-content: center;
+            align-items: center;
+            background-color: #a0a0a0;
+            .canvas-main {
+                width: 512px;
+                height: 512px;
+                // background-color: $canvas-bg-color;
+                // border: 1px solid #b8b8b8;
+                image-rendering: pixelated;
+                background: url('../../assets/images/grid_template.png');
+            }
         }
-    }
+    }    
     .canvas-size-container {
         justify-self: start;
         align-self: center;
@@ -200,7 +229,6 @@
 .footer-container {
     .credits {
         text-align: center;
-        color: #ffffff;
         font-weight: 700;
         font-size: 14px;
     }
