@@ -23,6 +23,90 @@
     background-color: $activeBgColor;
 }
 
+.pen-size-container {
+    display: inline-flex;
+    padding: 5px;
+    .pen-size-option {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #444444;
+        box-sizing: border-box;
+        margin-right: 2px;
+        cursor: pointer;
+        &[data-size="1"] {
+            padding: 5px;
+        }
+        &[data-size="2"] {
+            padding: 4px;
+        }
+        &[data-size="3"] {
+            padding: 3px;
+        }
+        &[data-size="4"] {
+            padding: 2px;
+        }
+        &:hover {
+            border-color: #aba7a7;
+        }
+        &::before {
+            content: "";
+            display: inherit;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+        }
+        &.selected {
+            border-color: #f12d2d;
+            &::before {
+                background-color: #f12d2d;
+            }
+        }
+    }
+}
+
+.color-selector-container {
+    position: relative;
+    height: 70px;
+    label.color {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 24px;
+        display: flex;
+        align-items: center;
+        color: rgba(0,0,0,0.54);
+        padding-left: 10px;
+        input[type=color] {
+            display: none;
+        }
+        &.primary-color {
+            position: absolute;
+            top: 10px;
+            left: 0;
+            z-index: 10;
+        }
+        &.secondary-color {
+            position: absolute;
+            top: 35px;
+            left: 25px;
+        }
+        .color-field {
+            width: 40px;
+            height: 40px;
+            border: 5px solid #646464;
+            cursor: pointer;
+            &.transparent-color {
+                background-image: url('../../assets/images/empty_color.png');
+            }
+            &:hover {
+                border-color: #a7a7a7;
+            }
+        }
+    }
+}
+
+
 .list-block-styled {
     box-shadow: 0px 0px 9px #aba7a7;
     -webkit-touch-callout: none; /* iOS Safari */
@@ -37,11 +121,11 @@
         display: flex;
         flex-direction: column;
         margin: 0;
-        padding: 0;        
-        &_colors li {
-            &:nth-child(2) {
-                border-bottom: 1px solid #b8b8b8;
-            }
+        padding: 0;
+        &_tools {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            grid-template-rows: auto 1fr;
         }
         li {
             width: 196px;
@@ -78,6 +162,12 @@
                         box-sizing: border-box;
                     }
                 }
+                &.tool-pen-size {
+                    grid-column: span 2;
+                    height: auto;
+                    background-color: transparent;
+                    cursor: default;
+                }
                 &.icon-tool-pen {
                     background-image: url('../../assets/images/sprites_icons.png');
                     background-position: -182px -92px;
@@ -107,44 +197,6 @@
                 display: flex;
                 align-items: center;
                 color: rgba(0, 0, 0, 0.54);
-            }
-            label.color {
-                width: 100%;
-                height: 100%;
-                display: flex;
-                align-items: center;
-                font-family: Roboto;
-                font-style: normal;
-                font-weight: normal;
-                font-size: 16px;
-                line-height: 24px;
-                display: flex;
-                align-items: center;
-                color: rgba(0, 0, 0, 0.54);
-                padding-left: 20px;
-                cursor: pointer;
-                input[type=color] {
-                    display: none;
-                }
-                .color-field {
-                    width: 20px;
-                    height: 20px;
-                    border: 1px solid #646464;
-                    border-radius: 50%;
-                    margin-right: 15px;
-                    &.transparent-color {
-                        background-image: url('../../assets/images/empty_color.png');
-                    }
-                    &_previous {
-                        background-color: #9fad9f;
-                    }
-                    &_red {
-                        background-color: #f12d2d;
-                    }
-                    &_blue {
-                        background-color: #3333e9;
-                    }
-                }
             }
         }
     }

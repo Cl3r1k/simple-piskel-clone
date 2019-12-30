@@ -29,28 +29,17 @@ const initApp = () => {
     paletteClassInstance.setPaletteState(3);
   });
 
-  const inputColorEl = document.getElementById('idCurrentColor');
-  inputColorEl.addEventListener('change', () => {
-    paletteClassInstance.setCurrentColor(inputColorEl.value);
+  const inputPrimaryColorElement = document.getElementById('idPrimaryColor');
+  inputPrimaryColorElement.addEventListener('change', () => {
+    paletteClassInstance.setPaletteColor(inputPrimaryColorElement.value);
   });
 
-  const prevColorEl = document.getElementById('idPreviousColorLabel');
-  prevColorEl.addEventListener('click', () => {
-    const prevColor = getComputedStyle(document.getElementById('idPreviousColorField')).backgroundColor;
-    paletteClassInstance.setCurrentColor(prevColor);
+  const inputSecondaryColorElement = document.getElementById('idSecondaryColor');
+  inputSecondaryColorElement.addEventListener('change', () => {
+    paletteClassInstance.setPaletteColor(inputSecondaryColorElement.value, true);
   });
 
-  const redColorEl = document.getElementById('idRedColorLabel');
-  redColorEl.addEventListener('click', () => {
-    const redColor = getComputedStyle(document.getElementById('idRedColorField')).backgroundColor;
-    paletteClassInstance.setCurrentColor(redColor);
-  });
-
-  const blueColorEl = document.getElementById('idBlueColorLabel');
-  blueColorEl.addEventListener('click', () => {
-    const blueColor = getComputedStyle(document.getElementById('idBlueColorField')).backgroundColor;
-    paletteClassInstance.setCurrentColor(blueColor);
-  });
+  // TODO: Rewrite 'setPixelSize()' -> bound to 'pen-size-container' and handle child component
 
   document.getElementById('btnSize32x32').addEventListener('click', () => {
     paletteClassInstance.setPixelSize(16);
@@ -67,16 +56,20 @@ const initApp = () => {
   document.addEventListener('keypress', evt => {
     if (document.activeElement.tagName !== 'INPUT') {
       switch (evt.key) {
-        case 'b': {
+        case 'p': {
           paletteClassInstance.setPaletteState(0);
           break;
         }
-        case 'p': {
+        case 'b': {
+          paletteClassInstance.setPaletteState(1);
+          break;
+        }
+        case 'e': {
           paletteClassInstance.setPaletteState(2);
           break;
         }
         case 'c': {
-          paletteClassInstance.setPaletteState(1);
+          paletteClassInstance.setPaletteState(3);
           break;
         }
         case 'r': {

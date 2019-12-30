@@ -25,13 +25,34 @@
 
     <main class="main-container wrapper">
         <div class="tools-container">
+            <div class="pen-size-container">
+                <div class="pen-size-option selected" data-size="1"></div>
+                <div class="pen-size-option" data-size="2"></div>
+                <div class="pen-size-option" data-size="3"></div>
+                <div class="pen-size-option" data-size="4"></div>
+            </div>
             <ul class="list-block-styled__common-list list-block-styled__common-list_tools">
+                <!-- <li id="idPenSize" class="tool-icon tool-pen-size">                    
+                </li> -->
                 <li id="idPencilTool" class="tool-icon icon-tool-pen"></li>
                 <li id="idPaintBucket" class="tool-icon icon-tool-paint-bucket"></li>
                 <li id="idEraserTool" class="tool-icon icon-tool-eraser"></li>
                 <li id="idColorPickerTool" class="tool-icon icon-tool-color-picker"></li>
+                <!-- <li class="tool-icon tool-color-selector">                    
+                </li> -->
             </ul>
-            <ul class="list-block-styled__common-list list-block-styled__common-list_colors">
+            <div id="idColorSelectorTool" class="color-selector-container">
+                <label class="color primary-color" for="idPrimaryColor">
+                    <span id="idPrimaryColorField" class="color-field"></span>
+                    <input type="color" name="primaryColor" id="idPrimaryColor">
+                </label>
+                <label class="color secondary-color" for="idSecondaryColor">
+                    <span id="idSecondaryColorField" class="color-field"></span>
+                    <input type="color" name="secondaryColor" id="idSecondaryColor">
+                </label>
+            </div>
+
+            <!-- <ul class="list-block-styled__common-list list-block-styled__common-list_colors">
                 <li>
                     <label class="color" for="idCurrentColor">
                         <span id="idCurrentColorField" class="color-field"></span>
@@ -57,7 +78,7 @@
                         Blue color
                     </label>
                 </li>
-            </ul>
+            </ul> -->
         </div>
         <div class="columns-wrapper">
             <div class="frame-column"></div>

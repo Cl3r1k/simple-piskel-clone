@@ -1,10 +1,9 @@
 import CanvasFloodFillerClass from './CanvasFloodFillerClass';
 import colors from './settings/colors';
+import settings from './settings/settings';
 
 export default class PaletteClass {
   constructor(canvasElement, canvasContext, width, height) {
-    this.currentColor = '#ffffff';
-    this.previousColor = '#ffffff';
     this.canvasElement = canvasElement;
     this.canvasContext = canvasContext;
     if (width > 0 && height > 0) {
@@ -31,16 +30,19 @@ export default class PaletteClass {
     });
 
     this.canvasElement.addEventListener('mousedown', evt => {
+      // console.log('evt', evt);
+      const isLeftMouse = evt.button < 1;
       if (this.isPencilState) {
-        this.canvasContext.fillStyle = this.currentColor;
+        this.canvasContext.fillStyle = isLeftMouse ? settings.primaryColor : settings.secondaryColor;
+        // console.log('this.canvasContext.fillStyle', this.canvasContext.fillStyle);
         this.lastX = Math.floor(evt.offsetX / this.pixelSize);
         this.lastY = Math.floor(evt.offsetY / this.pixelSize);
         this.isDrawing = true;
         this.draw(evt);
       }
       if (this.isFillState) {
-        this.canvasContext.fillStyle = this.currentColor;
-        this.fillCanvas(evt.offsetX, evt.offsetY, this.currentColor);
+        this.canvasContext.fillStyle = isLeftMouse ? settings.primaryColor : settings.secondaryColor;
+        this.fillCanvas(evt.offsetX, evt.offsetY, settings.primaryColor);
       }
       if (this.isEraserState) {
         this.lastX = Math.floor(evt.offsetX / this.pixelSize);
@@ -49,7 +51,7 @@ export default class PaletteClass {
         this.erase(evt);
       }
       if (this.isChooseColorState) {
-        this.setColorAtPixelOnCanvas(evt);
+        this.getColorAtPixelOnCanvas(evt, isLeftMouse);
       }
     });
 
@@ -63,6 +65,8 @@ export default class PaletteClass {
       this.isDrawing = false;
       this.isErasing = false;
     });
+
+    this.canvasElement.oncontextmenu = () => false;
   }
 
   hexToRGBA(hexStr) {
@@ -72,24 +76,36 @@ export default class PaletteClass {
     )}, 255)`;
   }
 
-  setCurrentColor(colorVal) {
+  setPaletteColor(colorVal, isSecondary = false) {
+    // console.log(`colorVal:${colorVal}, isSecondary:${isSecondary}`);
     if (colorVal.substr(0, 1) === '#') {
       colorVal = this.hexToRGBA(colorVal.substr(1));
     }
     if (colorVal.indexOf('a') === -1) {
       colorVal = colorVal.replace(')', ', 255)').replace('rgb', 'rgba');
     }
-    if (colorVal === this.currentColor) {
-      return;
+    if (isSecondary) {
+      settings.secondaryColor = colorVal;
+    } else {
+      settings.primaryColor = colorVal;
     }
-    this.previousColor = this.currentColor;
-    this.currentColor = colorVal;
-    const currentColorField = document.getElementById('idCurrentColorField');
-    currentColorField.style.backgroundColor = this.currentColor;
-    currentColorField.classList.toggle('transparent-color', colorVal === colors.transparentColorRGBA);
-    const previousColorField = document.getElementById('idPreviousColorField');
-    previousColorField.style.backgroundColor = this.previousColor;
+    const colorField = document.getElementById(isSecondary ? 'idSecondaryColorField' : 'idPrimaryColorField');
+    colorField.style.backgroundColor = colorVal;
+    colorField.classList.toggle('transparent-color', colorVal === colors.transparentColorRGBA);
   }
+
+  // setSecondaryColor(colorVal) {
+  //   if (colorVal.substr(0, 1) === '#') {
+  //     colorVal = this.hexToRGBA(colorVal.substr(1));
+  //   }
+  //   if (colorVal.indexOf('a') === -1) {
+  //     colorVal = colorVal.replace(')', ', 255)').replace('rgb', 'rgba');
+  //   }
+  //   settings.secondaryColor = colorVal;
+  //   const secondaryColorFieldElement = document.getElementById('idSecondaryColorField');
+  //   secondaryColorFieldElement.style.backgroundColor = settings.secondaryColor;
+  //   secondaryColorFieldElement.classList.toggle('transparent-color', colorVal === colors.transparentColorRGBA);
+  // }
 
   drawPixel(dx, dy, pxSize, canvasContext) {
     canvasContext.fillRect(dx, dy, pxSize, pxSize);
@@ -132,9 +148,11 @@ export default class PaletteClass {
 
     const newX = Math.floor(evt.offsetX / this.pixelSize);
     const newY = Math.floor(evt.offsetY / this.pixelSize);
-    if (this.currentColor === colors.transparentColorRGBA) {
+    if (this.canvasContext.fillStyle === colors.transparentColorRGBA) {
+      // console.log('CallBack: this.erasePixel???');
       this.drawLineBH(this.lastX, this.lastY, newX, newY, 1, this.canvasContext, this.erasePixel);
     } else {
+      // console.log('CallBack: this.drawPixel???');
       this.drawLineBH(this.lastX, this.lastY, newX, newY, 1, this.canvasContext, this.drawPixel);
     }
 
@@ -159,19 +177,18 @@ export default class PaletteClass {
     const newY = Math.floor(evt.offsetY / this.pixelSize);
     // console.log(`clearRect(${newX}, ${newY}, 1, 1)`);
     this.drawLineBH(this.lastX, this.lastY, newX, newY, 1, this.canvasContext, this.erasePixel);
-    // this.drawLineBH(this.lastX, this.lastY, newX, newY);
     this.lastX = newX;
     this.lastY = newY;
   }
 
   // TODO: Improve with transparent color
   // Mode ColorPicker
-  setColorAtPixelOnCanvas(evt) {
+  getColorAtPixelOnCanvas(evt, isLeftMouse = true) {
     const dx = Math.floor(evt.offsetX / this.pixelSize);
     const dy = Math.floor(evt.offsetY / this.pixelSize);
     const colAtPixel = this.canvasContext.getImageData(dx, dy, 1, 1).data;
     const colRGBA = `rgba(${colAtPixel[0]}, ${colAtPixel[1]}, ${colAtPixel[2]}, ${colAtPixel[3]})`;
-    this.setCurrentColor(colRGBA);
+    this.setPaletteColor(colRGBA, !isLeftMouse);
   }
 
   setPaletteState(paletteState) {
@@ -253,8 +270,8 @@ export default class PaletteClass {
         'applicationState',
         JSON.stringify({
           tool: this.selectedTool,
-          curColor: this.currentColor,
-          prevColor: this.previousColor,
+          primaryColor: settings.primaryColor,
+          secondaryColor: settings.secondaryColor,
           pxSize: this.pixelSize,
         }),
       );
@@ -278,15 +295,16 @@ export default class PaletteClass {
     if (appData) {
       const appSettings = JSON.parse(appData);
       this.setPaletteState(appSettings.tool);
-      this.currentColor = appSettings.prevColor;
-      this.setCurrentColor(appSettings.curColor);
-      this.setPixelSize(appSettings.pxSize ? appSettings.pxSize : 4);
+      this.setPaletteColor(appSettings.primaryColor);
+      this.setPaletteColor(appSettings.secondaryColor, true);
+      this.setPixelSize(appSettings.pxSize ? appSettings.pxSize : 16);
     } else {
-      const currentColorEl = document.getElementById('idCurrentColor');
-      currentColorEl.value = '#00ff00';
-      this.currentColor = currentColorEl.value;
+      document.getElementById('idPrimaryColor').value = settings.primaryColor;
+      document.getElementById('idSecondaryColor').value = settings.secondaryColor;
+      this.setPaletteColor(settings.primaryColor);
+      this.setPaletteColor(settings.secondaryColor, true);
       this.setPaletteState(0);
-      this.setPixelSize(4);
+      this.setPixelSize(16);
     }
   }
 
