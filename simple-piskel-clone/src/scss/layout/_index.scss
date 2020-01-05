@@ -68,8 +68,25 @@
 
 // --- Field Size Component ---
 .field-size-container {
-    .selected {
-        background-color: skyblue;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+        display: flex;
+        padding: 5px;
+        background-color: #4e4e4e;
+        margin: 3px;
+        cursor: pointer;
+        &.selected {
+            background-color: skyblue;
+        }
+        .image-icon {
+            width: 25px;
+        }
+        span {
+            font-size: 22px;
+            margin-left: 5px;
+        }
     }
 }
 // --- END Field Size Component ---
@@ -281,12 +298,10 @@
             }
         }
     }    
-    .canvas-size-container {
-        justify-self: start;
-        align-self: center;
-        @media screen and (max-width: $preTablet1020) {
-            justify-self: center;
-        }
+    .actions-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 }
 

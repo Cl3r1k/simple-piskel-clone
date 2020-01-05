@@ -1,25 +1,12 @@
 import settings from '../../../js/settings/settings';
-import colors from '../../../js/settings/colors';
 
 export default class ColorSwitcherClass {
   constructor() {
-    this.fieldSizeContainerElement = document.getElementById('idFieldSizeContainer');
-    // console.log('this.fieldSizeContainerElement', this.fieldSizeContainerElement);
-    this.fieldSizeContainerElement.addEventListener('click', evt => this.fieldSizeContainerClickHandler(evt, this));
-
     this.inputPrimaryColorElement = document.getElementById('idPrimaryColor');
     this.inputSecondaryColorElement = document.getElementById('idSecondaryColor');
 
-    // TODO: Check this call, does it work?
     this.inputPrimaryColorElement.addEventListener('change', evt => this.setSwitcherColor(evt.target.value));
     this.inputSecondaryColorElement.addEventListener('change', evt => this.setSwitcherColor(evt.target.value, true));
-    // this.inputPrimaryColorElement.addEventListener('change', () => {
-    //   this.setSwitcherColor(this.inputPrimaryColorElement.value);
-    // });
-    // this.inputSecondaryColorElement.addEventListener('change', () => {
-    //   this.setSwitcherColor(this.inputSecondaryColorElement.value, true);
-    // });
-    // console.log('this.fieldSizeContainerElement', this.fieldSizeContainerElement);
   }
 
   setSwitcherColor(colorVal, isSecondary = false) {
@@ -38,7 +25,7 @@ export default class ColorSwitcherClass {
     }
     const colorField = document.getElementById(isSecondary ? 'idSecondaryColorField' : 'idPrimaryColorField');
     colorField.style.backgroundColor = colorVal;
-    colorField.classList.toggle('transparent-color', colorVal === colors.transparentColorRGBA);
+    colorField.classList.toggle('transparent-color', colorVal === settings.transparentColorRGBA);
   }
 
   // TODO: Move this method to common helper

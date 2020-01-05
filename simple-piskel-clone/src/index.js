@@ -30,7 +30,7 @@ const initApp = () => {
   //   paletteClassInstance.setPaletteState(0);
   // });
 
-  // document.getElementById('idPaintBucket').addEventListener('click', () => {
+  // document.getElementById('idPaintBucketTool').addEventListener('click', () => {
   //   paletteClassInstance.setPaletteState(1);
   // });
 

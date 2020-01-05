@@ -1,10 +1,11 @@
 import settings from '../../../js/settings/settings';
 
 export default class FieldSizeClass {
-  constructor() {
+  constructor(canvasClassInstanceRef) {
     this.fieldSizeContainerElement = document.getElementById('idFieldSizeContainer');
     // console.log('this.fieldSizeContainerElement', this.fieldSizeContainerElement);
     this.fieldSizeContainerElement.addEventListener('click', evt => this.fieldSizeContainerClickHandler(evt, this));
+    this.canvasClassInstanceRef = canvasClassInstanceRef;
   }
 
   setFieldSize(fieldSize) {
@@ -12,31 +13,32 @@ export default class FieldSizeClass {
     const canvasFieldSize64x64 = settings.canvasMarkupSize / 64;
     const canvasFieldSize128x128 = settings.canvasMarkupSize / 128;
     // console.log('setFieldSize() fieldSize', fieldSize);
-    switch (fieldSize) {
-      case '64x64':
+    switch (+fieldSize) {
+      case 8:
         settings.fieldSize = canvasFieldSize64x64;
         break;
-      case '128x128':
+      case 4:
         settings.fieldSize = canvasFieldSize128x128;
         break;
-      case '32x32':
+      case 16:
       default:
         settings.fieldSize = canvasFieldSize32x32;
         break;
     }
     // console.log(`setFieldSize() with fieldSize: ${fieldSize} sets settings.fieldSize: ${settings.fieldSize}`);
     this.setSelectedElement(fieldSize);
-    // console.log('settings.canvasClassInstance', settings.canvasClassInstance);
-    settings.canvasClassInstance.setCanvasFieldSize(settings.fieldSize);
+    // console.log('this.canvasClassInstanceRef', this.canvasClassInstanceRef);
+    this.canvasClassInstanceRef.setCanvasFieldSize(settings.fieldSize);
   }
 
   fieldSizeContainerClickHandler(evt, classScope) {
     // console.log('evt', evt);
     // console.log('evt.target', evt.target);
+    // console.log('evt.target.parentElement', evt.target.parentElement);
     // console.log('evt.target.attributes', evt.target.attributes);
     // console.log('evt.target.hasAttribute(data-field-size)', evt.target.hasAttribute('data-field-size'));
-    if (evt.target.hasAttribute('data-field-size')) {
-      classScope.setFieldSize(evt.target.dataset.fieldSize);
+    if (evt.target.hasAttribute('data-field-size') || evt.target.parentElement.hasAttribute('data-field-size')) {
+      classScope.setFieldSize(evt.target.dataset.fieldSize || evt.target.parentElement.dataset.fieldSize);
     }
   }
 

@@ -34,7 +34,7 @@
 
             <ul class="list-block-styled__common-list list-block-styled__common-list_tools">
                 <li id="idPencilTool" class="tool-icon icon-tool-pen" data-tool-name="Pencil"></li>
-                <li id="idPaintBucket" class="tool-icon icon-tool-paint-bucket" data-tool-name="PaintBucket"></li>
+                <li id="idPaintBucketTool" class="tool-icon icon-tool-paint-bucket" data-tool-name="PaintBucket"></li>
                 <li id="idEraserTool" class="tool-icon icon-tool-eraser" data-tool-name="Eraser"></li>
                 <li id="idColorPickerTool" class="tool-icon icon-tool-color-picker" data-tool-name="ColorPicker"></li>
             </ul>
@@ -59,14 +59,16 @@
             <div class="animation-column"></div>
         </div>
 
-        <ul id="idFieldSizeContainer" class="field-size-container">
-            <li id="btnSize32x32" data-field-size="32x32"><img src="./assets/images/picture_icon.png"
-                    alt="picture_icon"><span>32x32</span></li>
-            <li id="btnSize64x64" data-field-size="64x64"><img src="./assets/images/picture_icon.png"
-                    alt="picture_icon"><span>64x64</span></li>
-            <li id="btnSize128x128" data-field-size="128x128"><img src="./assets/images/picture_icon.png"
-                    alt="picture_icon"><span>128x128</span></li>
-        </ul>
+        <div class="actions-container">
+            <ul id="idFieldSizeContainer" class="field-size-container">
+                <li id="btnSize32x32" data-field-size="16"><img class="image-icon" src="./assets/images/picture_icon.png"
+                        alt="picture_icon"><span>32x32</span></li>
+                <li id="btnSize64x64" data-field-size="8"><img class="image-icon" src="./assets/images/picture_icon.png"
+                        alt="picture_icon"><span>64x64</span></li>
+                <li id="btnSize128x128" data-field-size="4"><img class="image-icon" src="./assets/images/picture_icon.png"
+                        alt="picture_icon"><span>128x128</span></li>
+            </ul>
+        </div>
         <!-- <div class="canvas-size-container">
             <div class="list-block-styled">
                 <ul class="list-block-styled__common-list">

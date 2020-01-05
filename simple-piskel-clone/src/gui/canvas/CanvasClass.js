@@ -1,9 +1,7 @@
-import CanvasFloodFillerClass from '../tools/paint-bucket/CanvasFloodFillerClass';
 import settings from '../../js/settings/settings';
-import colors from '../../js/settings/colors';
 
 export default class CanvasClass {
-  constructor() {
+  constructor(penClassInstanceRef, eraserClassInstanceRef, paintBucketClassInstanceRef, colorPickerClassInstanceRef) {
     // const canvasEl = document.getElementById('idCanvas');
     // if (canvasEl.getContext) {
     //   const ctx = canvasEl.getContext('2d');
@@ -25,27 +23,33 @@ export default class CanvasClass {
     //   console.log('canvas painted');
     //   console.log(`canvas.width: ${this.canvasElement.width}, canvas.height: ${this.canvasElement.height}`);
     // });
+
+    this.penClassInstanceRef = penClassInstanceRef;
+    this.eraserClassInstanceRef = eraserClassInstanceRef;
+    this.paintBucketClassInstanceRef = paintBucketClassInstanceRef;
+    this.colorPickerClassInstanceRef = colorPickerClassInstanceRef;
     this.setCanvasHandlers();
     // console.log(`constr() canvas.width: ${this.canvasElement.width}, canvas.height: ${this.canvasElement.height}`);
   }
 
   setCanvasHandlers() {
     this.canvasElement.addEventListener('mousemove', evt => {
-      this.draw(evt);
-      this.erase(evt);
+      // TODO: Improve and call methods only after check
+      this.penClassInstanceRef.draw(evt.offsetX, evt.offsetY, this.canvasContext);
+      this.eraserClassInstanceRef.erase(evt.offsetX, evt.offsetY, this.canvasContext);
     });
 
     this.canvasElement.addEventListener('mousedown', evt => {
       // console.log('evt', evt);
       const isLeftMouse = evt.button < 1;
-      if (settings.isPencilState) {
+      if (settings.isPenState) {
         this.canvasContext.fillStyle = isLeftMouse ? settings.primaryColor : settings.secondaryColor;
         // console.log('this.canvasContext.fillStyle', this.canvasContext.fillStyle);
         settings.lastX = Math.floor(evt.offsetX / settings.fieldSize);
         settings.lastY = Math.floor(evt.offsetY / settings.fieldSize);
         // console.log('mousedown() settings.fieldSize', settings.fieldSize);
         settings.isDrawing = true;
-        this.draw(evt);
+        this.penClassInstanceRef.draw(evt.offsetX, evt.offsetY, this.canvasContext);
       }
       if (settings.isFillState) {
         // console.log('before isFillState - this.canvasContext.fillStyle', this.canvasContext.fillStyle);
@@ -53,16 +57,26 @@ export default class CanvasClass {
         // console.log('isFillState - this.canvasContext.fillStyle', this.canvasContext.fillStyle);
         // console.log('isFillState - settings.primaryColor', settings.primaryColor);
         // console.log('isFillState - settings.secondaryColor', settings.secondaryColor);
-        this.fillCanvas(evt.offsetX, evt.offsetY, isLeftMouse ? settings.primaryColor : settings.secondaryColor);
+        this.paintBucketClassInstanceRef.fillCanvas(
+          evt.offsetX,
+          evt.offsetY,
+          isLeftMouse ? settings.primaryColor : settings.secondaryColor,
+          this.canvasContext,
+        );
       }
       if (settings.isEraserState) {
         settings.lastX = Math.floor(evt.offsetX / settings.fieldSize);
         settings.lastY = Math.floor(evt.offsetY / settings.fieldSize);
         settings.isErasing = true;
-        this.erase(evt);
+        this.eraserClassInstanceRef.erase(evt.offsetX, evt.offsetY, this.canvasContext);
       }
       if (settings.isChooseColorState) {
-        this.getColorAtPixelOnCanvas(evt, isLeftMouse);
+        this.colorPickerClassInstanceRef.getColorAtPixelOnCanvas(
+          evt.offsetX,
+          evt.offsetY,
+          isLeftMouse,
+          this.canvasContext,
+        );
       }
     });
 
@@ -100,120 +114,6 @@ export default class CanvasClass {
         this.canvasContext.drawImage(img, 0, 0);
       };
     }
-  }
-
-  // TODO: Code below is not managed to different classes
-  // Mode Draw
-  draw(evt) {
-    // console.log('settings.isDrawing', settings.isDrawing);
-    if (!settings.isDrawing) {
-      return;
-    }
-
-    const newX = Math.floor(evt.offsetX / settings.fieldSize);
-    const newY = Math.floor(evt.offsetY / settings.fieldSize);
-    if (this.canvasContext.fillStyle === colors.transparentColorRGBA) {
-      // console.log('CallBack: this.erasePixel???');
-      this.drawLineBH(
-        settings.lastX,
-        settings.lastY,
-        newX,
-        newY,
-        settings.pixelSize,
-        this.canvasContext,
-        this.erasePixel,
-      );
-    } else {
-      // console.log('CallBack: this.drawPixel???');
-      this.drawLineBH(
-        settings.lastX,
-        settings.lastY,
-        newX,
-        newY,
-        settings.pixelSize,
-        this.canvasContext,
-        this.drawPixel,
-      );
-    }
-
-    settings.lastX = newX;
-    settings.lastY = newY;
-  }
-
-  drawPixel(dx, dy, pixelSize, canvasContext) {
-    // console.log(`drawPixel dx: ${dx}, dy: ${dy}, pixelSize: ${pixelSize}, canvasContext: ${canvasContext}`);
-    canvasContext.fillRect(dx, dy, pixelSize, pixelSize);
-    // canvasContext.fillStyle = 'red';
-    // canvasContext.fillRect(0, 0, 10, 10);
-  }
-
-  erasePixel(dx, dy, pixelSize, canvasContext) {
-    // console.log(`erasePixel dx: ${dx}, dy: ${dy}, pixelSize: ${pixelSize}, canvasContext: ${canvasContext}`);
-    canvasContext.clearRect(dx, dy, pixelSize, pixelSize);
-  }
-
-  drawLineBH(x0, y0, x1, y1, pixelSize = 1, canvasContext, callBack) {
-    const deltaX = Math.abs(x1 - x0);
-    const deltaY = Math.abs(y1 - y0);
-
-    const signX = x0 < x1 ? 1 : -1;
-    const signY = y0 < y1 ? 1 : -1;
-    let err = deltaX - deltaY;
-
-    while (x0 !== x1 || y0 !== y1) {
-      callBack(x0, y0, pixelSize, canvasContext);
-
-      const err2 = err * 2;
-      if (err2 > -deltaY) {
-        err -= deltaY;
-        x0 += signX;
-      }
-      if (err2 < deltaX) {
-        err += deltaX;
-        y0 += signY;
-      }
-    }
-
-    callBack(x0, y0, pixelSize, canvasContext);
-  }
-
-  // Mode Fill
-  fillCanvas(x, y, fillColor) {
-    const dx = Math.floor(x / settings.fieldSize);
-    const dy = Math.floor(y / settings.fieldSize);
-    const canvasFillerInstance = new CanvasFloodFillerClass(this.canvasContext, dx, dy, fillColor);
-    canvasFillerInstance.floodFill();
-  }
-
-  // Mode Erase
-  erase(evt) {
-    if (!settings.isErasing) {
-      return;
-    }
-    const newX = Math.floor(evt.offsetX / settings.fieldSize);
-    const newY = Math.floor(evt.offsetY / settings.fieldSize);
-    // console.log(`clearRect(${newX}, ${newY}, 1, 1)`);
-    this.drawLineBH(
-      settings.lastX,
-      settings.lastY,
-      newX,
-      newY,
-      settings.pixelSize,
-      this.canvasContext,
-      this.erasePixel,
-    );
-    settings.lastX = newX;
-    settings.lastY = newY;
-  }
-
-  // Mode ColorPicker
-  getColorAtPixelOnCanvas(evt, isLeftMouse = true) {
-    const dx = Math.floor(evt.offsetX / settings.fieldSize);
-    const dy = Math.floor(evt.offsetY / settings.fieldSize);
-    const colorAtPixel = this.canvasContext.getImageData(dx, dy, 1, 1).data;
-    const colorRGBA = `rgba(${colorAtPixel[0]}, ${colorAtPixel[1]}, ${colorAtPixel[2]}, ${colorAtPixel[3]})`;
-    // this.setPaletteColor(colRGBA, !isLeftMouse);
-    settings.colorSwitcherClassInstance.setSwitcherColor(colorRGBA, !isLeftMouse);
   }
 
   // Clear Canvas
