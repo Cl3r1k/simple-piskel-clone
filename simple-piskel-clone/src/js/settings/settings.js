@@ -4,6 +4,22 @@ const settings = {
   githubAvatarUrl: '',
   primaryColor: '#ffffff',
   secondaryColor: '#000000',
+  pixelSize: 1,
+  fieldSize: '32x32',
+  canvasMarkupSize: 512,
+  canvasClassInstance: null,
+  colorSwitcherClassInstance: null,
+  // canvasElement: null,
+  // canvasContext: null,
+  isPencilState: false,
+  isFillState: false,
+  isEraserState: false,
+  isChooseColorState: false,
+  lastX: 0,
+  lastY: 0,
+  isDrawing: false,
+  isErasing: false,
+  selectedTool: 0,
 };
 
 export default settings;

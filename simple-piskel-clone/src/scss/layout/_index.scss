@@ -23,6 +23,7 @@
     background-color: $activeBgColor;
 }
 
+// --- Pen Size Component ---
 .pen-size-container {
     display: inline-flex;
     padding: 5px;
@@ -33,16 +34,16 @@
         box-sizing: border-box;
         margin-right: 2px;
         cursor: pointer;
-        &[data-size="1"] {
+        &[data-pen-size="1"] {
             padding: 5px;
         }
-        &[data-size="2"] {
+        &[data-pen-size="2"] {
             padding: 4px;
         }
-        &[data-size="3"] {
+        &[data-pen-size="3"] {
             padding: 3px;
         }
-        &[data-size="4"] {
+        &[data-pen-size="4"] {
             padding: 2px;
         }
         &:hover {
@@ -63,7 +64,17 @@
         }
     }
 }
+// --- END Pen Size Component ---
 
+// --- Field Size Component ---
+.field-size-container {
+    .selected {
+        background-color: skyblue;
+    }
+}
+// --- END Field Size Component ---
+
+// --- Color Selector Component ---
 .color-selector-container {
     position: relative;
     height: 70px;
@@ -105,7 +116,7 @@
         }
     }
 }
-
+// --- END Color Selector Component ---
 
 .list-block-styled {
     box-shadow: 0px 0px 9px #aba7a7;
@@ -236,8 +247,9 @@
 
 .main-container {
     display: grid;
-    grid-template-columns: 15% 1fr 15%;
+    grid-template-columns: auto 1fr auto;
     padding: 0 50px;
+    background-color: #2f2f2f;
     @media screen and (max-width: $preTablet1020) {
         grid-template-columns: none;
         padding: 20px;

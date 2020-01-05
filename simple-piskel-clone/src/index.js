@@ -1,79 +1,78 @@
 import './scss/main.scss';
 
-import PaletteClass from './js/PaletteClass';
+// import settings from './js/settings/settings';
+// import PaletteClass from './js/PaletteClass';
+import ApplicationClass from './gui/ApplicationClass';
 import AuthClass from './js/AuthClass';
 
 // TODO: Use container handlers for tools, frames and animation, not separate eventListeners
 // TODO: Improve paint/erase fro mouse out case
 
-let paletteClassInstance;
-let authClassInstance;
+// let paletteClassInstance;
+// let authClassInstance;
 
 const initApp = () => {
-  paletteClassInstance.loadAppSate();
-  paletteClassInstance.initCanvasEvents();
+  // New part
+  const applicationClassInstance = new ApplicationClass();
+  applicationClassInstance.initApp();
 
-  document.getElementById('idPencilTool').addEventListener('click', () => {
-    paletteClassInstance.setPaletteState(0);
+  window.addEventListener('beforeunload', () => {
+    applicationClassInstance.saveAppState();
   });
+  // End New part
 
-  document.getElementById('idPaintBucket').addEventListener('click', () => {
-    paletteClassInstance.setPaletteState(1);
-  });
+  const authClassInstance = new AuthClass();
 
-  document.getElementById('idEraserTool').addEventListener('click', () => {
-    paletteClassInstance.setPaletteState(2);
-  });
+  // paletteClassInstance.loadAppSate();
+  // paletteClassInstance.initCanvasEvents();
 
-  document.getElementById('idColorPickerTool').addEventListener('click', () => {
-    paletteClassInstance.setPaletteState(3);
-  });
+  // document.getElementById('idPencilTool').addEventListener('click', () => {
+  //   paletteClassInstance.setPaletteState(0);
+  // });
 
-  const inputPrimaryColorElement = document.getElementById('idPrimaryColor');
-  inputPrimaryColorElement.addEventListener('change', () => {
-    paletteClassInstance.setPaletteColor(inputPrimaryColorElement.value);
-  });
+  // document.getElementById('idPaintBucket').addEventListener('click', () => {
+  //   paletteClassInstance.setPaletteState(1);
+  // });
 
-  const inputSecondaryColorElement = document.getElementById('idSecondaryColor');
-  inputSecondaryColorElement.addEventListener('change', () => {
-    paletteClassInstance.setPaletteColor(inputSecondaryColorElement.value, true);
-  });
+  // document.getElementById('idEraserTool').addEventListener('click', () => {
+  //   paletteClassInstance.setPaletteState(2);
+  // });
 
-  // TODO: Rewrite 'setPixelSize()' -> bound to 'pen-size-container' and handle child component
+  // document.getElementById('idColorPickerTool').addEventListener('click', () => {
+  //   paletteClassInstance.setPaletteState(3);
+  // });
 
-  document.getElementById('btnSize32x32').addEventListener('click', () => {
-    paletteClassInstance.setPixelSize(16);
-  });
+  // const inputPrimaryColorElement = document.getElementById('idPrimaryColor');
+  // inputPrimaryColorElement.addEventListener('change', () => {
+  //   paletteClassInstance.setPaletteColor(inputPrimaryColorElement.value);
+  // });
 
-  document.getElementById('btnSize64x64').addEventListener('click', () => {
-    paletteClassInstance.setPixelSize(8);
-  });
-
-  document.getElementById('btnSize128x128').addEventListener('click', () => {
-    paletteClassInstance.setPixelSize(4);
-  });
+  // const inputSecondaryColorElement = document.getElementById('idSecondaryColor');
+  // inputSecondaryColorElement.addEventListener('change', () => {
+  //   paletteClassInstance.setPaletteColor(inputSecondaryColorElement.value, true);
+  // });
 
   document.addEventListener('keypress', evt => {
     if (document.activeElement.tagName !== 'INPUT') {
       switch (evt.key) {
         case 'p': {
-          paletteClassInstance.setPaletteState(0);
+          applicationClassInstance.setPaletteState(0);
           break;
         }
         case 'b': {
-          paletteClassInstance.setPaletteState(1);
+          applicationClassInstance.setPaletteState(1);
           break;
         }
         case 'e': {
-          paletteClassInstance.setPaletteState(2);
+          applicationClassInstance.setPaletteState(2);
           break;
         }
         case 'c': {
-          paletteClassInstance.setPaletteState(3);
+          applicationClassInstance.setPaletteState(3);
           break;
         }
         case 'r': {
-          paletteClassInstance.resetCanvasState();
+          applicationClassInstance.resetCanvasState();
           break;
         }
         default: {
@@ -116,16 +115,5 @@ const initApp = () => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  const canvasEl = document.getElementById('idCanvas');
-  if (canvasEl.getContext) {
-    const ctx = canvasEl.getContext('2d');
-
-    authClassInstance = new AuthClass();
-    paletteClassInstance = new PaletteClass(canvasEl, ctx, 512, 512);
-    initApp();
-
-    window.addEventListener('beforeunload', () => {
-      paletteClassInstance.saveAppState();
-    });
-  }
+  initApp();
 });

@@ -12,11 +12,11 @@ Todo:
     Functional scope:
       ☐ Canvas sizes: 32x32 / 64x64 / 128x128 user-defined units
       ☐ Tools
-        ☐ Pen. Required size is 1 unit. Other unit sizes (2, 3, 4) are optional.  <========================================================= CURRENT TASK
+        ✔ Pen. Required size is 1 unit. Other unit sizes (2, 3, 4) are optional. @done(19-12-31 11:45)
         ✔ Color select (Primary/Secondary) @done(19-12-30 17:28)
         ☐ Paint bucket
         ✔ Eraser @done(19-12-29 15:58)
-        ☐ Stroke (to draw straight lines)
+        ☐ Stroke (to draw straight lines)  <========================================================= CURRENT TASK
       ☐ Please use Tools in https://www.piskelapp.com/ as an ideal example of what should be done. Use only main functionality without keyboard modifiers (ALT or SHIFT keys)
       ☐ Preview
         ☐ Small animation preview window in the top right corner

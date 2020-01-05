@@ -25,23 +25,21 @@
 
     <main class="main-container wrapper">
         <div class="tools-container">
-            <div class="pen-size-container">
-                <div class="pen-size-option selected" data-size="1"></div>
-                <div class="pen-size-option" data-size="2"></div>
-                <div class="pen-size-option" data-size="3"></div>
-                <div class="pen-size-option" data-size="4"></div>
+            <div id="idPenSizeContainer" class="pen-size-container">
+                <div class="pen-size-option" data-pen-size="1"></div>
+                <div class="pen-size-option" data-pen-size="2"></div>
+                <div class="pen-size-option" data-pen-size="3"></div>
+                <div class="pen-size-option" data-pen-size="4"></div>
             </div>
+
             <ul class="list-block-styled__common-list list-block-styled__common-list_tools">
-                <!-- <li id="idPenSize" class="tool-icon tool-pen-size">                    
-                </li> -->
-                <li id="idPencilTool" class="tool-icon icon-tool-pen"></li>
-                <li id="idPaintBucket" class="tool-icon icon-tool-paint-bucket"></li>
-                <li id="idEraserTool" class="tool-icon icon-tool-eraser"></li>
-                <li id="idColorPickerTool" class="tool-icon icon-tool-color-picker"></li>
-                <!-- <li class="tool-icon tool-color-selector">                    
-                </li> -->
+                <li id="idPencilTool" class="tool-icon icon-tool-pen" data-tool-name="Pencil"></li>
+                <li id="idPaintBucket" class="tool-icon icon-tool-paint-bucket" data-tool-name="PaintBucket"></li>
+                <li id="idEraserTool" class="tool-icon icon-tool-eraser" data-tool-name="Eraser"></li>
+                <li id="idColorPickerTool" class="tool-icon icon-tool-color-picker" data-tool-name="ColorPicker"></li>
             </ul>
-            <div id="idColorSelectorTool" class="color-selector-container">
+
+            <div class="color-selector-container">
                 <label class="color primary-color" for="idPrimaryColor">
                     <span id="idPrimaryColorField" class="color-field"></span>
                     <input type="color" name="primaryColor" id="idPrimaryColor">
@@ -51,35 +49,8 @@
                     <input type="color" name="secondaryColor" id="idSecondaryColor">
                 </label>
             </div>
-
-            <!-- <ul class="list-block-styled__common-list list-block-styled__common-list_colors">
-                <li>
-                    <label class="color" for="idCurrentColor">
-                        <span id="idCurrentColorField" class="color-field"></span>
-                        <input type="color" name="currentColor" id="idCurrentColor">
-                        Current color
-                    </label>
-                </li>
-                <li>
-                    <label class="color" for="" id="idPreviousColorLabel">
-                        <span id="idPreviousColorField" class="color-field color-field_previous"></span>
-                        Previous color
-                    </label>
-                </li>
-                <li>
-                    <label class="color" for="" id="idRedColorLabel">
-                        <span id="idRedColorField" class="color-field color-field_red"></span>
-                        Red color
-                    </label>
-                </li>
-                <li>
-                    <label class="color" for="" id="idBlueColorLabel">
-                        <span id="idBlueColorField" class="color-field color-field_blue"></span>
-                        Blue color
-                    </label>
-                </li>
-            </ul> -->
         </div>
+
         <div class="columns-wrapper">
             <div class="frame-column"></div>
             <div class="canvas-column">
@@ -87,18 +58,27 @@
             </div>
             <div class="animation-column"></div>
         </div>
-        <div class="canvas-size-container">
-            <div class="list-block-styled pictures-block">
-                <ul class="list-block-styled__common-list list-block-styled__common-list_pictures">
-                    <li id="btnSize32x32"><img src="./assets/images/picture_icon.png"
+
+        <ul id="idFieldSizeContainer" class="field-size-container">
+            <li id="btnSize32x32" data-field-size="32x32"><img src="./assets/images/picture_icon.png"
+                    alt="picture_icon"><span>32x32</span></li>
+            <li id="btnSize64x64" data-field-size="64x64"><img src="./assets/images/picture_icon.png"
+                    alt="picture_icon"><span>64x64</span></li>
+            <li id="btnSize128x128" data-field-size="128x128"><img src="./assets/images/picture_icon.png"
+                    alt="picture_icon"><span>128x128</span></li>
+        </ul>
+        <!-- <div class="canvas-size-container">
+            <div class="list-block-styled">
+                <ul class="list-block-styled__common-list">
+                    <li id="btnSize32x32" data-field-size="32x32"><img src="./assets/images/picture_icon.png"
                             alt="picture_icon"><span>32x32</span></li>
-                    <li id="btnSize64x64"><img src="./assets/images/picture_icon.png"
+                    <li id="btnSize64x64" data-field-size="64x64"><img src="./assets/images/picture_icon.png"
                             alt="picture_icon"><span>64x64</span></li>
-                    <li id="btnSize128x128"><img src="./assets/images/picture_icon.png"
+                    <li id="btnSize128x128" data-field-size="128x128"><img src="./assets/images/picture_icon.png"
                             alt="picture_icon"><span>128x128</span></li>
                 </ul>
             </div>
-        </div>
+        </div> -->
     </main>
 
     <footer class="footer-container wrapper">
