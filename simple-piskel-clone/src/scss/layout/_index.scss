@@ -215,6 +215,34 @@
             }
         }
     }
+    .frame-new {
+        position: relative;
+        margin-top: 8px;
+        padding: 6px 2px 6px 25px;
+        overflow: hidden;
+        width: 100px;
+        border: #888 solid 3px;
+        border-radius: 4px;
+        color: #888;
+        background-color: #222;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        &:hover {
+            border-color: $selectedBorderColor;
+        }
+        &::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            display: block;
+            width: 25px;
+            height: 25px;
+            background-image: url('../../assets/images/sprites_icons.png');
+            background-position: -274px -157px;
+        }
+    }
 }
 // --- END Color Selector Component ---
 

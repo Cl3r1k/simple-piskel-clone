@@ -9,6 +9,8 @@ import PaintBucketClass from './tools/paint-bucket/PaintBucketClass';
 import ColorPickerClass from './tools/color-picker/ColorPickerClass';
 import FramesClass from './frames/FramesClass';
 
+const APPLICATION_SAVE_NAME = 'applicationState';
+
 export default class ApplicationClass {
   // constructor() {
   //   // TODO: Consider constructor() to remove
@@ -43,10 +45,15 @@ export default class ApplicationClass {
   // }
 
   saveAppState() {
+    // console.log('%c saveAppState() called', 'color: green;');
     try {
       // this.canvasClassInstance.saveCanvasState();
+      // console.log('%c saveAppState() settings.frames', 'color: green;', settings.frames);
+      // const dataToSave = { frames: settings.frames };
+      // console.log('%c saveAppState() dataToSave', 'color: green;', dataToSave);
+      // localStorage.removeItem(APPLICATION_SAVE_NAME);
       localStorage.setItem(
-        'applicationState',
+        APPLICATION_SAVE_NAME,
         JSON.stringify({
           tool: settings.selectedTool,
           primaryColor: settings.primaryColor,
@@ -64,7 +71,7 @@ export default class ApplicationClass {
 
   loadAppSate() {
     const canvasImageData = localStorage.getItem('canvasImage');
-    const applicationData = localStorage.getItem('applicationState');
+    const applicationData = localStorage.getItem(APPLICATION_SAVE_NAME);
 
     // TODO: Rewrite this part and create separate method for CanvasClass to drawImage()
     // TODO: Improve canvasSize change for two variants of size change (scale and not scale)

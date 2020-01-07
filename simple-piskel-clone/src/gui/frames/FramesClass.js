@@ -6,14 +6,14 @@ export default class FramesClass {
     settings.frames = [];
     this.framesComponentElement = document.getElementById('idFramesComponent');
     this.framesComponentElement
-      .querySelector('button')
+      .querySelector('.frame-new')
       .addEventListener('click', () => this.generateFramesList([], true));
     // this.framesComponentElement.querySelectorAll('canvas').addEventListener('click', this.selectCanvas);
   }
 
   updateFrame(index, toDataURL) {
     // console.log('updateFrame() index: ', index);
-    const currentFrameCanvasElement = this.framesComponentElement.querySelector(`[data-frame="${index}"]`);
+    const currentFrameCanvasElement = this.framesComponentElement.querySelector(`[data-frame="${index}"] > canvas`);
     const currentFrameContext = currentFrameCanvasElement.getContext('2d');
 
     // const currFr = this.framesComponentElement.querySelector(`[data-frame="${index}"]`);
@@ -57,9 +57,9 @@ export default class FramesClass {
     // console.log('generateFrame() toDataURL', toDataURL);
     const liElement = document.createElement('li');
     liElement.classList.add('frame');
+    liElement.dataset.frame = frameIndex || settings.frames.length || 0;
     const canvasElement = document.createElement('canvas');
     canvasElement.classList.add('frame-canvas');
-    canvasElement.dataset.frame = frameIndex || settings.frames.length || 0;
     canvasElement.addEventListener('click', evt => this.canvasClickHandler(evt));
     canvasElement.width = settings.canvasMarkupSize / settings.fieldSize;
     canvasElement.height = settings.canvasMarkupSize / settings.fieldSize;
@@ -69,32 +69,39 @@ export default class FramesClass {
     const frameNumberElement = document.createElement('span');
     frameNumberElement.classList.add('frame-icon-layout');
     frameNumberElement.classList.add('frame-number');
-    frameNumberElement.textContent = frameIndex + 1;
+    frameNumberElement.textContent = (frameIndex || settings.frames.length || 0) + 1;
     liElement.append(frameNumberElement);
+
+    // const button = document.createElement('button');
+    // button.classList.add('frame-icon-layout');
+    // button.classList.add('frame-delete');
+    // button.addEventListener('click', evt => this.deleteFrame(evt));
+
     liElement.append(
-      this.createButtonElement('frame-delete'),
-      this.createButtonElement('frame-copy'),
-      this.createButtonElement('frame-move'),
+      // button,
+      this.createButtonElement('frame-delete', scope => this.deleteFrame(scope)),
+      this.createButtonElement('frame-copy', scope => this.copyFrame(scope)),
+      this.createButtonElement('frame-move', scope => this.moveFrame(scope)),
     );
     return liElement;
   }
 
-  createButtonElement(className) {
+  createButtonElement(className, eventHandler = null) {
     const button = document.createElement('button');
     button.classList.add('frame-icon-layout');
     button.classList.add(className);
-    // button.addEventListener('click', buttonHandler);
+    button.addEventListener('click', evt => eventHandler(evt));
     return button;
   }
 
   canvasClickHandler(evt) {
     // console.log('canvas evt', evt);
-    // console.log('canvas evt', evt);
     // evt += 1;
     // console.log('canvas evt.target.dataset.frame', evt.target.dataset.frame);
+    // console.log('LI evt.target.parentElement.dataset.frame', evt.target.parentElement.dataset.frame);
     // console.log('typeof canvas evt.target.dataset.frame', typeof evt.target.dataset.frame);
     // evt.target.dataset.frame = +evt.target.dataset.frame + 1;
-    this.setSelectedFrame(+evt.target.dataset.frame);
+    this.setSelectedFrame(+evt.target.parentElement.dataset.frame);
   }
 
   // TODO: ToDelete
@@ -104,7 +111,7 @@ export default class FramesClass {
   // }
 
   setSelectedFrame(frameIndex) {
-    // console.log('setSelectedFrame() frameIndex', frameIndex);
+    // console.log('%c setSelectedFrame() frameIndex', 'color: blue', frameIndex);
     settings.selectedFrame = frameIndex;
     this.applicationRef.updateMainCanvas(settings.frames[frameIndex]);
 
@@ -113,6 +120,90 @@ export default class FramesClass {
     frameElements.forEach((frameElement, index) => {
       // console.log(`setSelectedFrame() frameElement: ${frameElement}, index ${index}`);
       frameElement.classList.toggle('selected', index === frameIndex);
+    });
+  }
+
+  deleteFrame(evt) {
+    // console.log('this', this);
+    // console.log('deleteFrame() evt', evt);
+    // console.log('deleteFrame() evt.target.parentElement.dataset.frame', evt.target.parentElement.dataset.frame);
+    const indexFrameToDelete = +evt.target.parentElement.dataset.frame;
+    // console.log('deleteFrame() indexFrameToDelete', indexFrameToDelete);
+    // console.log('deleteFrame() settings.selectedFrame', settings.selectedFrame);
+
+    settings.frames.splice(indexFrameToDelete, 1);
+    // console.log('deleteFrame() settings.frames', settings.frames);
+    // console.log('deleteFrame() typeof indexFrameToDelete', typeof indexFrameToDelete);
+
+    const frameToDeleteElement = this.framesComponentElement.querySelector(`[data-frame="${indexFrameToDelete}"]`);
+    frameToDeleteElement.parentNode.removeChild(frameToDeleteElement);
+
+    this.updateDataset();
+
+    this.setSelectedFrame(0);
+    // if (indexFrameToDelete === settings.selectedFrame) {
+    //   if (indexFrameToDelete === 0 || indexFrameToDelete !== settings.frames.length) {
+    //     this.setSelectedFrame(indexFrameToDelete);
+    //   } else {
+    //     this.setSelectedFrame(indexFrameToDelete - 1);
+    //   }
+    // } else if (indexFrameToDelete === 0) {
+    //   this.setSelectedFrame(indexFrameToDelete);
+    // } else {
+    //   this.setSelectedFrame(settings.selectedFrame - 1);
+    // }
+  }
+
+  copyFrame(evt) {
+    // console.log('this', this);
+    // console.log('copyFrame() evt', evt);
+    const indexFrameToCopy = +evt.target.parentElement.dataset.frame;
+    const frameToCopyElement = this.framesComponentElement.querySelector(`[data-frame="${indexFrameToCopy}"]`);
+    const frameToCopyCanvasElement = frameToCopyElement.querySelector('.frame-canvas');
+    // const frameToCopyCanvasContext = frameToCopyCanvasElement.getContext('2d');
+
+    const imageData = frameToCopyCanvasElement.toDataURL();
+    // console.log('copyFrame() imageData', imageData);
+
+    const newFrameElement = this.generateFrame(imageData, indexFrameToCopy + 1);
+    // const newFrameCanvasElement = newFrameElement.querySelector('.frame-canvas');
+    // const newFrameCanvasContext = newFrameCanvasElement.getContext('2d');
+
+    // console.log('copyFrame() frameToCopyCanvasContext', frameToCopyCanvasContext);
+    // console.log('copyFrame() newFrameCanvasContext', newFrameCanvasContext.get);
+
+    settings.frames.splice(indexFrameToCopy + 1, 0, imageData);
+    // settings.frames[indexFrameToCopy + 1] = frameToCopyCanvasElement.toDataURL();
+
+    // this.drawImageOnCanvas(
+    //   frameToCopyCanvasElement.toDataURL(),
+    //   newFrameCanvasContext,
+    //   frameToCopyCanvasElement.width,
+    //   frameToCopyCanvasElement.height,
+    // );
+
+    frameToCopyElement.parentNode.insertBefore(newFrameElement, frameToCopyElement.nextSibling);
+
+    this.updateDataset();
+
+    this.setSelectedFrame(indexFrameToCopy + 1);
+  }
+
+  // moveFrame(evt) {
+  //   // console.log('this', this);
+  //   // console.log('moveFrame() evt', evt);
+  // }
+
+  updateDataset() {
+    // console.log('%c updateDataset() called', 'color: green;');
+    const frameElements = this.framesComponentElement.querySelectorAll('.frame');
+    frameElements.forEach((frameElement, index) => {
+      // console.log('updateDataset() frameElement.dataset.frame', frameElement.dataset.frame);
+      const frameNumberElement = frameElement.querySelector('span');
+      // console.log('updateDataset() frameNumberElement', frameNumberElement);
+      // console.log('updateDataset() frameNumberElement.textContent', frameNumberElement.textContent);
+      frameNumberElement.textContent = index + 1;
+      frameElement.dataset.frame = index;
     });
   }
 
