@@ -125,26 +125,26 @@ Todo:
       `Max - **+80**`
       ✔ Usage of Webpack and required project structure: **+10 points.**
       ✔ Custom canvas size (32x32 / 64x64 / 128x128) - **+10**
-      ☐ Tools
+      ✔ Tools
         ✔ Pen. Required size is 1 unit. (**+5**)
         ✔ Pen. Other unit sizes (2, 3, 4) .(**+10**)
         ✔ Color select (color picker) (**+5**)
         ✔ Paint bucket (**+5**)
         ✔ Eraser (**+10**)
         ✔ Paint all pixels of the same color **+5**
-        ☐ Stroke (to draw straight lines) **+5**      
-      ☐ Unit tests
-        ☐ Setup Jest + cover couple functions with at least 2 tests (utilities / pure functions for example) **+15**  <========================================================= CURRENT TASK
+        ✔ Stroke (to draw straight lines) **+5**
+      ✔ Unit tests
+        ✔ Setup Jest + cover couple functions with at least 2 tests (utilities / pure functions for example) **+15**
       
       Normal scope:      
       `Max - **+180**`
       ☐ Landing Page is presented will all needed information: **+20 points.**
-      ☐ `Frames` functionality
+      ✔ `Frames` functionality
         ✔ add frame - **+15**
         ✔ delete a frame - **+15**
-        ☐ drag & drop (move) frame - **+20**
+        ✔ drag & drop (move) frame - **+20**
         ✔ duplicate frame - **+20**
-      ☐ `Preview` functionality
+      ☐ `Preview` functionality  <========================================================= CURRENT TASK
         ☐ Ability to animate the created frames  - **+20**
         ☐ Ability to change FPS rate from 1 to 24 per second - **20**
         ☐ Ability to run the animation in Full screen mode - **+10**

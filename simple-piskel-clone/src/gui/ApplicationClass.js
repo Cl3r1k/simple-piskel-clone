@@ -7,9 +7,11 @@ import PenClass from './tools/pen/PenClass';
 import EraserClass from './tools/eraser/EraserClass';
 import PaintBucketClass from './tools/paint-bucket/PaintBucketClass';
 import ColorPickerClass from './tools/color-picker/ColorPickerClass';
+import StrokeClass from './tools/stroke/StrokeClass';
 import FramesClass from './frames/FramesClass';
 
 const APPLICATION_SAVE_NAME = 'applicationState';
+const CANVAS_SAVE_NAME = 'canvasImage';
 
 export default class ApplicationClass {
   // constructor() {
@@ -25,12 +27,14 @@ export default class ApplicationClass {
     this.eraserClassInstance = new EraserClass(this);
     this.paintBucketClassInstance = new PaintBucketClass(this);
     this.colorPickerClassInstance = new ColorPickerClass(this, this.colorSwitcherClassInstance);
+    this.strokeClassInstance = new StrokeClass(this);
     this.canvasClassInstance = new CanvasClass(
       this,
       this.penClassInstance,
       this.eraserClassInstance,
       this.paintBucketClassInstance,
       this.colorPickerClassInstance,
+      this.strokeClassInstance,
     );
     this.penSizeClassInstance = new PenSizeClass();
     this.fieldSizeClassInstance = new FieldSizeClass(this.canvasClassInstance);
@@ -70,7 +74,7 @@ export default class ApplicationClass {
   }
 
   loadAppSate() {
-    const canvasImageData = localStorage.getItem('canvasImage');
+    const canvasImageData = localStorage.getItem(CANVAS_SAVE_NAME);
     const applicationData = localStorage.getItem(APPLICATION_SAVE_NAME);
 
     // TODO: Rewrite this part and create separate method for CanvasClass to drawImage()
@@ -117,6 +121,7 @@ export default class ApplicationClass {
     const fillToolElement = document.getElementById('idPaintBucketTool');
     const eraserToolElement = document.getElementById('idEraserTool');
     const chooseColorToolElement = document.getElementById('idColorPickerTool');
+    const strokeToolElement = document.getElementById('idStrokeTool');
     settings.selectedTool = paletteState;
 
     // TODO: Use Urls for each cursor state
@@ -127,6 +132,7 @@ export default class ApplicationClass {
         settings.isFillState = true;
         settings.isEraserState = false;
         settings.isChooseColorState = false;
+        settings.isStrokeState = false;
         this.canvasClassInstance.canvasElement.style.cursor = 'default';
         settings.isDrawing = false;
         settings.isErasing = false;
@@ -137,6 +143,7 @@ export default class ApplicationClass {
         settings.isFillState = false;
         settings.isEraserState = true;
         settings.isChooseColorState = false;
+        settings.isStrokeState = false;
         this.canvasClassInstance.canvasElement.style.cursor = 'crosshair';
         settings.isDrawing = false;
         break;
@@ -146,9 +153,22 @@ export default class ApplicationClass {
         settings.isFillState = false;
         settings.isEraserState = false;
         settings.isChooseColorState = true;
+        settings.isStrokeState = false;
         this.canvasClassInstance.canvasElement.style.cursor = 'crosshair';
         settings.isDrawing = false;
         settings.isErasing = false;
+        break;
+      // Stroke
+      case 4:
+        settings.isPenState = false;
+        settings.isFillState = false;
+        settings.isEraserState = false;
+        settings.isChooseColorState = false;
+        settings.isStrokeState = true;
+        this.canvasClassInstance.canvasElement.style.cursor = 'crosshair';
+        settings.isDrawing = false;
+        settings.isErasing = false;
+        // console.log('settings.isStrokeState', settings.isStrokeState);
         break;
       // Pencil
       case 0:
@@ -157,6 +177,7 @@ export default class ApplicationClass {
         settings.isFillState = false;
         settings.isEraserState = false;
         settings.isChooseColorState = false;
+        settings.isStrokeState = false;
         this.canvasClassInstance.canvasElement.style.cursor = 'crosshair';
         settings.isErasing = false;
         break;
@@ -166,6 +187,7 @@ export default class ApplicationClass {
     fillToolElement.classList.toggle('active', settings.isFillState);
     eraserToolElement.classList.toggle('active', settings.isEraserState);
     chooseColorToolElement.classList.toggle('active', settings.isChooseColorState);
+    strokeToolElement.classList.toggle('active', settings.isStrokeState);
   }
 
   updateCurrentFrame(toDataURL) {

@@ -1,5 +1,7 @@
 import settings from '../../js/settings/settings';
 
+const CANVAS_SAVE_NAME = 'canvasImage';
+
 export default class CanvasClass {
   constructor(
     applicationRef,
@@ -7,6 +9,7 @@ export default class CanvasClass {
     eraserClassInstanceRef,
     paintBucketClassInstanceRef,
     colorPickerClassInstanceRef,
+    strokeClassInstanceRef,
   ) {
     // const canvasEl = document.getElementById('idCanvas');
     // if (canvasEl.getContext) {
@@ -35,15 +38,30 @@ export default class CanvasClass {
     this.eraserClassInstanceRef = eraserClassInstanceRef;
     this.paintBucketClassInstanceRef = paintBucketClassInstanceRef;
     this.colorPickerClassInstanceRef = colorPickerClassInstanceRef;
+    this.strokeClassInstanceRef = strokeClassInstanceRef;
+
+    this.canvasImageData = this.canvasContext.getImageData(0, 0, this.canvasElement.width, this.canvasElement.height);
+
     this.setCanvasHandlers();
     // console.log(`constr() canvas.width: ${this.canvasElement.width}, canvas.height: ${this.canvasElement.height}`);
   }
 
   setCanvasHandlers() {
     this.canvasElement.addEventListener('mousemove', evt => {
-      // TODO: Improve and call methods only after check
-      this.penClassInstanceRef.draw(evt.offsetX, evt.offsetY, this.canvasContext);
-      this.eraserClassInstanceRef.erase(evt.offsetX, evt.offsetY, this.canvasContext);
+      if (settings.isDrawing) {
+        this.penClassInstanceRef.draw(evt.offsetX, evt.offsetY, this.canvasContext);
+      }
+
+      if (settings.isErasing) {
+        this.eraserClassInstanceRef.erase(evt.offsetX, evt.offsetY, this.canvasContext);
+      }
+
+      if (settings.isStroking) {
+        const endX = Math.floor(evt.offsetX / settings.fieldSize);
+        const endY = Math.floor(evt.offsetY / settings.fieldSize);
+        this.canvasContext.putImageData(this.canvasImageData, 0, 0);
+        this.strokeClassInstanceRef.drawStroke(settings.startX, settings.startY, endX, endY, this.canvasContext);
+      }
     });
 
     this.canvasElement.addEventListener('mousedown', evt => {
@@ -85,11 +103,42 @@ export default class CanvasClass {
           this.canvasContext,
         );
       }
+      if (settings.isStrokeState) {
+        // console.log('settings.isStrokeState evt', evt);
+        this.canvasContext.fillStyle = isLeftMouse ? settings.primaryColor : settings.secondaryColor;
+        settings.startX = Math.floor(evt.offsetX / settings.fieldSize);
+        settings.startY = Math.floor(evt.offsetY / settings.fieldSize);
+        settings.isStroking = true;
+        // console.log('settings.isStroking', settings.isStroking);
+        this.canvasImageData = this.canvasContext.getImageData(
+          0,
+          0,
+          this.canvasElement.width,
+          this.canvasElement.height,
+        );
+
+        // this.strokeClassInstanceRef.
+        // this.colorPickerClassInstanceRef.getColorAtPixelOnCanvas(
+        //   evt.offsetX,
+        //   evt.offsetY,
+        //   isLeftMouse,
+        //   this.canvasContext,
+        // );
+      }
     });
 
-    this.canvasElement.addEventListener('mouseup', () => {
+    this.canvasElement.addEventListener('mouseup', evt => {
+      // console.log('settings.isDrawing', settings.isDrawing);
+      // console.log('settings.isErasing', settings.isErasing);
+      // console.log('settings.isStroking', settings.isStroking);
       settings.isDrawing = false;
       settings.isErasing = false;
+      if (settings.isStroking) {
+        const endX = Math.floor(evt.offsetX / settings.fieldSize);
+        const endY = Math.floor(evt.offsetY / settings.fieldSize);
+        this.strokeClassInstanceRef.drawStroke(settings.startX, settings.startY, endX, endY, this.canvasContext);
+        settings.isStroking = false;
+      }
       this.saveCanvasState();
     });
 
@@ -107,7 +156,7 @@ export default class CanvasClass {
     this.canvasElement.width = settings.canvasMarkupSize / canvasFieldSize;
     this.canvasElement.height = settings.canvasMarkupSize / canvasFieldSize;
 
-    const canvasImageData = localStorage.getItem('canvasImage');
+    const canvasImageData = localStorage.getItem(CANVAS_SAVE_NAME);
 
     if (canvasImageData) {
       this.drawImageOnCanvas(canvasImageData);

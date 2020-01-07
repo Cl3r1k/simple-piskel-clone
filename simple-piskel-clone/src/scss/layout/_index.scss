@@ -61,7 +61,7 @@
             &::before {
                 background-color: $selectedBorderColor;
             }
-        }
+        }        
     }
 }
 // --- END Pen Size Component ---
@@ -147,6 +147,7 @@
     overflow-y: auto;
     max-height: 85vh;
     margin: 10px 20px;
+    min-width: 101px;
     .frames-list {
         list-style: none;
         padding: 0;
@@ -202,6 +203,7 @@
                     background-image: url('../../assets/images/sprites_icons.png');
                     background-position: -274px -46px;
                     border-top-right-radius: 3px;
+                    cursor: move;
                 }                
             }            
             &:hover {
@@ -212,6 +214,11 @@
             }
             &.selected {
                 border-color: $selectedBorderColor;
+            }
+            &:first-child:last-child:hover .frame-icon-layout {
+                &.frame-delete, &.frame-move {
+                    display: none;
+                }
             }
         }
     }
@@ -322,6 +329,10 @@
                 &.icon-tool-color-picker {
                     background-image: url('../../assets/images/sprites_icons.png');
                     background-position: -274px 0px;
+                }
+                &.icon-tool-stroke {
+                    background-image: url('../../assets/images/sprites_icons.png');
+                    background-position: -46px -136px;
                 }
             }
             img {

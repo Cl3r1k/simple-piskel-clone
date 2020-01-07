@@ -8,7 +8,6 @@ export default class FramesClass {
     this.framesComponentElement
       .querySelector('.frame-new')
       .addEventListener('click', () => this.generateFramesList([], true));
-    // this.framesComponentElement.querySelectorAll('canvas').addEventListener('click', this.selectCanvas);
   }
 
   updateFrame(index, toDataURL) {
@@ -57,7 +56,13 @@ export default class FramesClass {
     // console.log('generateFrame() toDataURL', toDataURL);
     const liElement = document.createElement('li');
     liElement.classList.add('frame');
+    liElement.classList.add('draggable');
+    liElement.draggable = true;
     liElement.dataset.frame = frameIndex || settings.frames.length || 0;
+    liElement.addEventListener('dragstart', evt => this.dragStartHandler(evt));
+    liElement.addEventListener('dragend', evt => this.dragEndHandler(evt));
+    liElement.addEventListener('dragover', evt => this.dragOverHandler(evt));
+    liElement.addEventListener('drop', evt => this.dragDropHandler(evt));
     const canvasElement = document.createElement('canvas');
     canvasElement.classList.add('frame-canvas');
     canvasElement.addEventListener('click', evt => this.canvasClickHandler(evt));
@@ -72,17 +77,25 @@ export default class FramesClass {
     frameNumberElement.textContent = (frameIndex || settings.frames.length || 0) + 1;
     liElement.append(frameNumberElement);
 
-    // const button = document.createElement('button');
-    // button.classList.add('frame-icon-layout');
-    // button.classList.add('frame-delete');
-    // button.addEventListener('click', evt => this.deleteFrame(evt));
+    // const moveButton = document.createElement('button');
+    // moveButton.classList.add('frame-icon-layout');
+    // moveButton.classList.add('frame-move');
+    // moveButton.classList.add('draggable');
+    // // moveButton.addEventListener('click', evt => this.dragOverHandler(evt));
+    // moveButton.addEventListener('dragstart', evt => this.dragStartHandler(evt));
+    // moveButton.addEventListener('dragend', evt => this.dragEndHandler(evt));
+    // moveButton.addEventListener('dragover', evt => this.dragOverHandler(evt));
+    // moveButton.addEventListener('drop', evt => this.dragDropHandler(evt));
+    // moveButton.draggable = true;
 
     liElement.append(
       // button,
       this.createButtonElement('frame-delete', scope => this.deleteFrame(scope)),
       this.createButtonElement('frame-copy', scope => this.copyFrame(scope)),
-      this.createButtonElement('frame-move', scope => this.moveFrame(scope)),
+      this.createButtonElement('frame-move'),
+      // moveButton,
     );
+
     return liElement;
   }
 
@@ -90,7 +103,10 @@ export default class FramesClass {
     const button = document.createElement('button');
     button.classList.add('frame-icon-layout');
     button.classList.add(className);
-    button.addEventListener('click', evt => eventHandler(evt));
+    if (eventHandler) {
+      button.addEventListener('click', evt => eventHandler(evt));
+    }
+
     return button;
   }
 
@@ -104,12 +120,6 @@ export default class FramesClass {
     this.setSelectedFrame(+evt.target.parentElement.dataset.frame);
   }
 
-  // TODO: ToDelete
-  // addNewFrameHandler(classScope) {
-  //   console.log('addNewFrameHandler() called');
-  //   classScope.generateFramesList([], true);
-  // }
-
   setSelectedFrame(frameIndex) {
     // console.log('%c setSelectedFrame() frameIndex', 'color: blue', frameIndex);
     settings.selectedFrame = frameIndex;
@@ -119,6 +129,7 @@ export default class FramesClass {
     // console.log('setSelectedFrame() frameElements:', frameElements);
     frameElements.forEach((frameElement, index) => {
       // console.log(`setSelectedFrame() frameElement: ${frameElement}, index ${index}`);
+      // console.log(`index(${index}) === frameIndex(${frameIndex}): ${index === frameIndex}`);
       frameElement.classList.toggle('selected', index === frameIndex);
     });
   }
@@ -189,10 +200,79 @@ export default class FramesClass {
     this.setSelectedFrame(indexFrameToCopy + 1);
   }
 
-  // moveFrame(evt) {
-  //   // console.log('this', this);
-  //   // console.log('moveFrame() evt', evt);
-  // }
+  dragStartHandler(evt) {
+    // store a ref. on the dragged elem
+    this.dragged = evt.target;
+    // make it half transparent
+    evt.target.style.opacity = 0.5;
+  }
+
+  dragEndHandler(evt) {
+    // reset the transparency
+    evt.target.style.opacity = '';
+  }
+
+  dragOverHandler(evt) {
+    // prevent default to allow drop
+    // console.log('dragover event:', evt);
+    // console.log('dragover event:', event.toElement.innerText);
+    evt.preventDefault();
+  }
+
+  dragDropHandler(evt) {
+    // prevent default action (open as link for some elements)
+    evt.preventDefault();
+    // console.log('drop evt:', evt);
+    // console.log('drop evt:', evt.toElement.innerText);
+    // console.log('drop evt.target.className:', evt.target.className);
+
+    // console.log('drop evt.target:', evt.target);
+    // console.log('drop dragged:', this.dragged);
+
+    const targetParentElement = evt.target.parentNode;
+    // console.log('targetParentElement', targetParentElement);
+    // console.log(`targetParentElement.hasAttribute('data-frame')`, targetParentElement.hasAttribute('data-frame'));
+    // console.log(`targetParentElement.className`, targetParentElement.className);
+    // move this.dragged elem to the selected drop target
+    if (targetParentElement.hasAttribute('data-frame')) {
+      // evt.target.style.background = '';  // TODO: Do we need this???
+      const parentContainer = targetParentElement.parentNode;
+      // console.log('parentContainer', parentContainer);
+      // const newEl = document.createElement('li');
+      // newEl.classList.add('frame');
+      // newEl.classList.add('draggable');
+      // newEl.draggable = true;
+      // newEl.textContent = '123';
+      // parentElement.removeChild(this.dragged);
+      // evt.target.appendChild( newEl );
+      // parentElement.insertBefore(newEl, evt.target);
+
+      /* parentElement.appendChild( this.dragged ); */
+      /* frameToCopyElement.parentNode.insertBefore(newFrameElement, frameToCopyElement.nextSibling); */
+
+      // console.log('evt.target.dataset.frame', evt.target.dataset.frame);
+      // console.log('this.dragged.dataset.frame', this.dragged.dataset.frame);
+
+      // const movedImageData = settings.frames[this.dragged.dataset.frame];
+      // console.log('settings.frames', settings.frames);
+      const movedImageData = settings.frames.splice(this.dragged.dataset.frame, 1);
+      // console.log('movedImageData', movedImageData);
+      // console.log('settings.frames', settings.frames);
+      settings.frames.splice(targetParentElement.dataset.frame, 0, ...movedImageData);
+      // console.log('settings.frames', settings.frames);
+
+      parentContainer.removeChild(this.dragged);
+      if (targetParentElement.dataset.frame < this.dragged.dataset.frame) {
+        parentContainer.insertBefore(this.dragged, targetParentElement);
+      } else {
+        parentContainer.insertBefore(this.dragged, targetParentElement.nextSibling);
+      }
+
+      this.updateDataset();
+
+      this.setSelectedFrame(+this.dragged.dataset.frame);
+    }
+  }
 
   updateDataset() {
     // console.log('%c updateDataset() called', 'color: green;');
@@ -206,11 +286,6 @@ export default class FramesClass {
       frameElement.dataset.frame = index;
     });
   }
-
-  // TODO: ToDelete
-  // selectCanvas(evt) {
-  //   console.log('selectCanvas() evt', evt);
-  // }
 
   drawImageOnCanvas(canvasImageData, canvasContext, width, height) {
     // console.log('drawImageOnCanvas() canvasImageData:', canvasImageData);

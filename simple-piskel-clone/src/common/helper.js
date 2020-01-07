@@ -23,4 +23,25 @@ const drawLineBH = (x0, y0, x1, y1, pixelSize = 1, canvasContext, callBack) => {
   callBack(x0, y0, pixelSize, canvasContext);
 };
 
-export default { drawLineBH };
+const convertHexToRGBA = hexStr => {
+  const IndexesInHexColorData = {
+    red: { start: 0 },
+    green: { start: 2 },
+    blue: { start: 4 },
+    amount: { value: 2 },
+    alpha: { value: 255 },
+  };
+
+  return `rgba(${parseInt(
+    hexStr.substr(IndexesInHexColorData.red.start, IndexesInHexColorData.amount.value),
+    16,
+  )}, ${parseInt(hexStr.substr(IndexesInHexColorData.green.start, IndexesInHexColorData.amount.value), 16)}, ${parseInt(
+    hexStr.substr(IndexesInHexColorData.blue.start, IndexesInHexColorData.amount.value),
+    16,
+  )}, ${IndexesInHexColorData.alpha.value})`;
+};
+
+export default {
+  drawLineBH,
+  convertHexToRGBA,
+};

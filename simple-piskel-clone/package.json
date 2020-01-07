@@ -15,6 +15,11 @@
         "coverage": "jest --coverage",
         "coverage:full": "jest --coverage --coverage-reporters=lcov"
     },
+    "jest": {
+        "collectCoverageFrom": [
+            "src/**/*.js"
+        ]
+    },
     "husky": {
         "hooks": {
             "pre-commit": "lint-staged"
