@@ -148,9 +148,9 @@ Todo:
         ✔ Ability to animate the created frames  - **+20**
         ✔ Ability to change FPS rate from 1 to 24 per second - **20**
         ✔ Ability to run the animation in Full screen mode - **+10**
-      ☐ Keyboard shotcuts  <========================================================= CURRENT TASK
-        ☐ All actions should be available via keyboard shortcuts **+10**
-        ☐ Modal window to change keyboard shortcuts **+10**
+      ☐ Keyboard shotcuts
+        ✔ All actions should be available via keyboard shortcuts **+10**
+        ☐ Modal window to change keyboard shortcuts **+10**  <========================================================= CURRENT TASK
       ✔ Save user session in localstorage **+10**
       ☐ Unit tests
         ☐ write 20 unit tests for utils functions and ui components **+10**
@@ -181,13 +181,15 @@ Todo:
       ☐ -20 eslint is not configured or there is a lot of errors
       ☐ -20 magic number
 
+
     Additional:
-      ☐ change all export from defaul to named import
-      ☐ improve/fix 'size-change'
-      ☐ bug with erase (current frame is not updated)
-      ☐ refactor (move methods from classes to utils.js):
-        ☐ drawImageOnCanvas()
-        ☐ clearCanvas()
+      ☐ TODO: change all export from defaul to named import
+      ☐ TODO: improve/fix 'size-change'
+      ☐ TODO: bug with erase (current frame is not updated)
+      ☐ TODO: refactor (move methods from classes to utils.js):
+        ☐ TODO: drawImageOnCanvas()
+        ☐ TODO: clearCanvas()
+      ☐ TODO: Improve paint/erase for mouse out case
 
 
     `Useful links`

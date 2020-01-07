@@ -1,10 +1,9 @@
 import CanvasFloodFillerClass from './CanvasFloodFillerClass';
-import settings from '../../../js/settings/settings';
+import settings from '../../../common/settings/settings';
 
 export default class PaintBucketClass {
   constructor(applicationRef) {
     this.paintBucketElement = document.getElementById('idPaintBucketTool');
-    // console.log('this.paintBucketElement', this.paintBucketElement);
     this.paintBucketElement.addEventListener('click', () => applicationRef.setPaletteState(1));
   }
 

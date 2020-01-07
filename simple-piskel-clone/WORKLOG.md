@@ -5,7 +5,7 @@
 | Jan 03      | Jan 05   | 14h        | pen size implement + refactor               |
 | Jan 05      | Jan 06   | 8h         | frame management implementation             |
 | Jan 06      | Jan 07   | 5h         | preview animation implementation            |
-| --- -       | --- -    | ---        | keyboard shortcuts implementation           |
+| Jan 07      | Jan 07   | 2h         | keyboard shortcuts implementation           |
 | --- -       | --- -    | ---        | bug fixing                                  |
         
 Total: **-h**
