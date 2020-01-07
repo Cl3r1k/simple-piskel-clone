@@ -6,7 +6,6 @@
 | --- -       | --- -    | ---        | frame management implementation             |
 | --- -       | --- -    | ---        | preview animation implementation            |
 | --- -       | --- -    | ---        | keyboard shortcuts implementation           |
-| --- -       | --- -    | ---        | layers implementation                       |
 | --- -       | --- -    | ---        | bug fixing                                  |
         
 Total: **-h**

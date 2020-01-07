@@ -17,6 +17,8 @@ const settings = {
   isDrawing: false,
   isErasing: false,
   selectedTool: 0,
+  frames: [],
+  selectedFrame: 0,
 };
 
 export default settings;

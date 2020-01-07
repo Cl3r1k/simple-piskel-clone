@@ -1,7 +1,13 @@
 import settings from '../../js/settings/settings';
 
 export default class CanvasClass {
-  constructor(penClassInstanceRef, eraserClassInstanceRef, paintBucketClassInstanceRef, colorPickerClassInstanceRef) {
+  constructor(
+    applicationRef,
+    penClassInstanceRef,
+    eraserClassInstanceRef,
+    paintBucketClassInstanceRef,
+    colorPickerClassInstanceRef,
+  ) {
     // const canvasEl = document.getElementById('idCanvas');
     // if (canvasEl.getContext) {
     //   const ctx = canvasEl.getContext('2d');
@@ -24,6 +30,7 @@ export default class CanvasClass {
     //   console.log(`canvas.width: ${this.canvasElement.width}, canvas.height: ${this.canvasElement.height}`);
     // });
 
+    this.applicationRef = applicationRef;
     this.penClassInstanceRef = penClassInstanceRef;
     this.eraserClassInstanceRef = eraserClassInstanceRef;
     this.paintBucketClassInstanceRef = paintBucketClassInstanceRef;
@@ -89,6 +96,7 @@ export default class CanvasClass {
     this.canvasElement.addEventListener('mouseout', () => {
       settings.isDrawing = false;
       settings.isErasing = false;
+      this.saveCanvasState();
     });
 
     this.canvasElement.oncontextmenu = () => false;
@@ -113,6 +121,8 @@ export default class CanvasClass {
       img.onload = () => {
         this.canvasContext.drawImage(img, 0, 0);
       };
+    } else {
+      this.clearCanvas();
     }
   }
 
@@ -122,6 +132,8 @@ export default class CanvasClass {
   }
 
   saveCanvasState() {
-    localStorage.setItem('canvasImage', this.canvasElement.toDataURL());
+    // TODO: Remove -localStorage.setItem('canvasImage'...-
+    // localStorage.setItem('canvasImage', this.canvasElement.toDataURL());
+    this.applicationRef.updateCurrentFrame(this.canvasElement.toDataURL());
   }
 }

@@ -53,32 +53,30 @@ const initApp = () => {
   // });
 
   document.addEventListener('keypress', evt => {
-    if (document.activeElement.tagName !== 'INPUT') {
-      switch (evt.key) {
-        case 'p': {
-          applicationClassInstance.setPaletteState(0);
-          break;
-        }
-        case 'b': {
-          applicationClassInstance.setPaletteState(1);
-          break;
-        }
-        case 'e': {
-          applicationClassInstance.setPaletteState(2);
-          break;
-        }
-        case 'c': {
-          applicationClassInstance.setPaletteState(3);
-          break;
-        }
-        case 'r': {
-          applicationClassInstance.resetCanvasState();
-          break;
-        }
-        default: {
-          break;
-        }
-      }
+    // console.log('evt.key', evt.key);
+    switch (evt.key) {
+      case 'p':
+      case 'з':
+        applicationClassInstance.setPaletteState(0);
+        break;
+      case 'b':
+      case 'и':
+        applicationClassInstance.setPaletteState(1);
+        break;
+      case 'e':
+      case 'у':
+        applicationClassInstance.setPaletteState(2);
+        break;
+      case 'c':
+      case 'с':
+        applicationClassInstance.setPaletteState(3);
+        break;
+      case 'r':
+      case 'к':
+        applicationClassInstance.resetCanvasState();
+        break;
+      default:
+        break;
     }
   });
 

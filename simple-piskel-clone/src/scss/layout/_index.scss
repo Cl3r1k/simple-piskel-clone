@@ -57,9 +57,9 @@
             background-color: #fff;
         }
         &.selected {
-            border-color: #f12d2d;
+            border-color: $selectedBorderColor;
             &::before {
-                background-color: #f12d2d;
+                background-color: $selectedBorderColor;
             }
         }
     }
@@ -78,7 +78,10 @@
         margin: 3px;
         cursor: pointer;
         &.selected {
-            background-color: skyblue;
+            background-color: $selectedBorderColor;
+        }
+        &:hover {
+            background-color: $hoverBgColor;
         }
         .image-icon {
             width: 25px;
@@ -128,7 +131,87 @@
                 background-image: url('../../assets/images/empty_color.png');
             }
             &:hover {
-                border-color: #a7a7a7;
+                border-color: lighten($color: $hoverBgColor, $amount: 20);
+            }
+        }
+    }
+}
+// --- END Color Selector Component ---
+
+// --- Frame Selector Component ---
+.frames-column {
+    align-self: start;
+    padding: 10px;
+    box-shadow: 0 0 5px 1px darken($color: $selectedBorderColor, $amount: 30);
+    border-radius: 3px;
+    overflow-y: auto;
+    max-height: 85vh;
+    margin: 10px 20px;
+    .frames-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        .frame {
+            border: #444 3px solid;
+            border-radius: 3px;
+            margin: 5px 0;
+            width: 95px;
+            height: 95px;
+            position: relative;
+            .frame-canvas {
+                width: 100%;
+                image-rendering: pixelated;
+                background: url('../../assets/images/grid_template.png');
+            }
+            .frame-icon-layout {
+                position: absolute;                
+                height: 30px;
+                width: 30px;
+                background-color: rgba(100, 100, 100, 0.6);
+                border: none;
+                cursor: pointer;
+                display: none;
+                &.frame-number {
+                    top: 0;
+                    left: 0;
+                    background-color: $selectedBorderColor;
+                    border-bottom-right-radius: 3px;
+                    font-size: 16px;
+                    line-height: 30px;
+                    font-weight: bold;
+                    text-align: center;
+                    display: block;
+                }
+                &.frame-delete {
+                    top: 0;
+                    right: 0;
+                    background-image: url('../../assets/images/sprites_icons.png');
+                    background-position: -274px -106px;
+                    border-bottom-left-radius: 3px;
+                }
+                &.frame-copy {
+                    bottom: 0;
+                    right: 0;
+                    background-image: url('../../assets/images/sprites_icons.png');
+                    background-position: -274px -76px;
+                    border-top-left-radius: 3px;
+                }
+                &.frame-move {
+                    bottom: 0;
+                    left: 0;
+                    background-image: url('../../assets/images/sprites_icons.png');
+                    background-position: -274px -46px;
+                    border-top-right-radius: 3px;
+                }                
+            }            
+            &:hover {
+                border-color: $hoverBgColor;
+                .frame-icon-layout {
+                    display: block;
+                }
+            }
+            &.selected {
+                border-color: $selectedBorderColor;
             }
         }
     }
@@ -177,14 +260,14 @@
                 height: 46px;
                 margin: 1px;
                 &:hover {
-                    background-color: #8f8f8f;
+                    background-color: $hoverBgColor;
                 }
                 &.active {
-                    background-color: #8f8f8f;
+                    background-color: $hoverBgColor;
                     &::before {
                         content: '';
                         display: inherit;
-                        border: 3px solid red;
+                        border: 3px solid $selectedBorderColor;
                         width: 100%;
                         height: 100%;
                         box-sizing: border-box;
@@ -266,7 +349,7 @@
     display: grid;
     grid-template-columns: auto 1fr auto;
     padding: 0 50px;
-    background-color: #2f2f2f;
+    background-color: $mainBgColor;
     @media screen and (max-width: $preTablet1020) {
         grid-template-columns: none;
         padding: 20px;
@@ -282,12 +365,14 @@
     }
     .columns-wrapper {
         display: grid;
-        grid-template-columns: 20% 1fr 20%;
+        grid-template-columns: auto 1fr 20%;
         .canvas-column {
             display: grid;
             justify-content: center;
             align-items: center;
             background-color: #a0a0a0;
+            border-bottom-right-radius: 3px;
+            border-bottom-left-radius: 3px;
             .canvas-main {
                 width: 512px;
                 height: 512px;
@@ -306,6 +391,7 @@
 }
 
 .footer-container {
+    background-color: $mainBgColor;
     .credits {
         text-align: center;
         font-weight: 700;

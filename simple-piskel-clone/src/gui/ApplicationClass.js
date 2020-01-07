@@ -7,6 +7,7 @@ import PenClass from './tools/pen/PenClass';
 import EraserClass from './tools/eraser/EraserClass';
 import PaintBucketClass from './tools/paint-bucket/PaintBucketClass';
 import ColorPickerClass from './tools/color-picker/ColorPickerClass';
+import FramesClass from './frames/FramesClass';
 
 export default class ApplicationClass {
   // constructor() {
@@ -23,6 +24,7 @@ export default class ApplicationClass {
     this.paintBucketClassInstance = new PaintBucketClass(this);
     this.colorPickerClassInstance = new ColorPickerClass(this, this.colorSwitcherClassInstance);
     this.canvasClassInstance = new CanvasClass(
+      this,
       this.penClassInstance,
       this.eraserClassInstance,
       this.paintBucketClassInstance,
@@ -30,6 +32,7 @@ export default class ApplicationClass {
     );
     this.penSizeClassInstance = new PenSizeClass();
     this.fieldSizeClassInstance = new FieldSizeClass(this.canvasClassInstance);
+    this.framesClassInstance = new FramesClass(this);
 
     this.loadAppSate();
   }
@@ -41,7 +44,7 @@ export default class ApplicationClass {
 
   saveAppState() {
     try {
-      this.canvasClassInstance.saveCanvasState();
+      // this.canvasClassInstance.saveCanvasState();
       localStorage.setItem(
         'applicationState',
         JSON.stringify({
@@ -50,6 +53,8 @@ export default class ApplicationClass {
           secondaryColor: settings.secondaryColor,
           pixelSize: settings.pixelSize,
           fieldSize: settings.fieldSize,
+          frames: settings.frames,
+          selectedFrame: settings.selectedFrame,
         }),
       );
     } catch (err) {
@@ -62,6 +67,7 @@ export default class ApplicationClass {
     const applicationData = localStorage.getItem('applicationState');
 
     // TODO: Rewrite this part and create separate method for CanvasClass to drawImage()
+    // TODO: Improve canvasSize change for two variants of size change (scale and not scale)
     if (canvasImageData) {
       this.canvasClassInstance.drawImageOnCanvas(canvasImageData);
     }
@@ -84,6 +90,9 @@ export default class ApplicationClass {
       // this.setPixelSize(appSettings.pxSize ? appSettings.pxSize : 16);
       this.penSizeClassInstance.setPixelSize(appSettings.pixelSize ? appSettings.pixelSize : 1);
       this.fieldSizeClassInstance.setFieldSize(appSettings.fieldSize ? appSettings.fieldSize : '32x32');
+      // console.log('loadAppSate() appSettings.frames:', appSettings.frames);
+      settings.selectedFrame = appSettings.selectedFrame || 0;
+      this.framesClassInstance.generateFramesList(appSettings.frames || []);
     } else {
       this.colorSwitcherClassInstance.setSwitcherColor(settings.primaryColor);
       this.colorSwitcherClassInstance.setSwitcherColor(settings.secondaryColor, true);
@@ -91,6 +100,7 @@ export default class ApplicationClass {
       // this.setPixelSize(16);
       this.penSizeClassInstance.setPixelSize(1);
       this.fieldSizeClassInstance.setFieldSize('32x32');
+      this.framesClassInstance.generateFramesList([]);
     }
   }
 
@@ -151,8 +161,22 @@ export default class ApplicationClass {
     chooseColorToolElement.classList.toggle('active', settings.isChooseColorState);
   }
 
+  updateCurrentFrame(toDataURL) {
+    // console.log('updateCurrentFrame() toDataURL:', toDataURL);
+    this.framesClassInstance.updateFrame(settings.selectedFrame, toDataURL);
+    // this.saveAppState();
+  }
+
+  updateMainCanvas(toDataURL) {
+    // console.log('updateMainCanvas() toDataURL:', toDataURL);
+    this.canvasClassInstance.clearCanvas();
+    this.canvasClassInstance.drawImageOnCanvas(toDataURL);
+    this.saveAppState();
+  }
+
   resetCanvasState() {
     this.canvasClassInstance.clearCanvas();
+    this.updateCurrentFrame('');
     this.saveAppState();
   }
 }
