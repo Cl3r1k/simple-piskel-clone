@@ -144,11 +144,11 @@ Todo:
         ✔ delete a frame - **+15**
         ✔ drag & drop (move) frame - **+20**
         ✔ duplicate frame - **+20**
-      ☐ `Preview` functionality  <========================================================= CURRENT TASK
-        ☐ Ability to animate the created frames  - **+20**
-        ☐ Ability to change FPS rate from 1 to 24 per second - **20**
-        ☐ Ability to run the animation in Full screen mode - **+10**
-      ☐ Keyboard shotcuts
+      ✔ `Preview` functionality
+        ✔ Ability to animate the created frames  - **+20**
+        ✔ Ability to change FPS rate from 1 to 24 per second - **20**
+        ✔ Ability to run the animation in Full screen mode - **+10**
+      ☐ Keyboard shotcuts  <========================================================= CURRENT TASK
         ☐ All actions should be available via keyboard shortcuts **+10**
         ☐ Modal window to change keyboard shortcuts **+10**
       ✔ Save user session in localstorage **+10**
@@ -182,8 +182,12 @@ Todo:
       ☐ -20 magic number
 
     Additional:
-      ☐ TODO: ---
-
+      ☐ change all export from defaul to named import
+      ☐ improve/fix 'size-change'
+      ☐ bug with erase (current frame is not updated)
+      ☐ refactor (move methods from classes to utils.js):
+        ☐ drawImageOnCanvas()
+        ☐ clearCanvas()
 
 
     `Useful links`

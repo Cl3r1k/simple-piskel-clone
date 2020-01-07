@@ -71,17 +71,24 @@
             <div class="canvas-column">
                 <canvas class="canvas-main" id="idCanvas" height="512" width="512"></canvas>
             </div>
-            <div class="animation-column"></div>
+            <div id="idPreviewComponent" class="preview-column">
+                <canvas id="idPreviewCanvas" class="preview-canvas" height="95" width="95"></canvas>
+                <button id="idPreviewFullscreen" class="preview-icon-layout preview-fullscreen"></button>
+                <div class="preview-fps-container">
+                    <span class="preview-display-fps">10 FPS</span>
+                    <input class="preview-range-fps" type="range" min="0" max="24" step="1" value="10">
+                </div>
+            </div>
         </div>
 
         <div class="actions-container">
             <ul id="idFieldSizeContainer" class="field-size-container">
-                <li id="btnSize32x32" data-field-size="16"><img class="image-icon" src="./assets/images/picture_icon.png"
-                        alt="picture_icon"><span>32x32</span></li>
+                <li id="btnSize32x32" data-field-size="16"><img class="image-icon"
+                        src="./assets/images/picture_icon.png" alt="picture_icon"><span>32x32</span></li>
                 <li id="btnSize64x64" data-field-size="8"><img class="image-icon" src="./assets/images/picture_icon.png"
                         alt="picture_icon"><span>64x64</span></li>
-                <li id="btnSize128x128" data-field-size="4"><img class="image-icon" src="./assets/images/picture_icon.png"
-                        alt="picture_icon"><span>128x128</span></li>
+                <li id="btnSize128x128" data-field-size="4"><img class="image-icon"
+                        src="./assets/images/picture_icon.png" alt="picture_icon"><span>128x128</span></li>
             </ul>
         </div>
         <!-- <div class="canvas-size-container">

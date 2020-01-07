@@ -9,6 +9,7 @@ import PaintBucketClass from './tools/paint-bucket/PaintBucketClass';
 import ColorPickerClass from './tools/color-picker/ColorPickerClass';
 import StrokeClass from './tools/stroke/StrokeClass';
 import FramesClass from './frames/FramesClass';
+import PreviewClass from './preview/PreviewClass';
 
 const APPLICATION_SAVE_NAME = 'applicationState';
 const CANVAS_SAVE_NAME = 'canvasImage';
@@ -39,6 +40,7 @@ export default class ApplicationClass {
     this.penSizeClassInstance = new PenSizeClass();
     this.fieldSizeClassInstance = new FieldSizeClass(this.canvasClassInstance);
     this.framesClassInstance = new FramesClass(this);
+    this.previewClassInstance = new PreviewClass(this);
 
     this.loadAppSate();
   }
@@ -66,6 +68,7 @@ export default class ApplicationClass {
           fieldSize: settings.fieldSize,
           frames: settings.frames,
           selectedFrame: settings.selectedFrame,
+          fps: settings.fps,
         }),
       );
     } catch (err) {
@@ -104,6 +107,9 @@ export default class ApplicationClass {
       // console.log('loadAppSate() appSettings.frames:', appSettings.frames);
       settings.selectedFrame = appSettings.selectedFrame || 0;
       this.framesClassInstance.generateFramesList(appSettings.frames || []);
+      settings.fps = appSettings.fps || 10;
+      // console.log('appSettings.fps:', appSettings.fps);
+      // console.log('set settings.fps to:', settings.fps);
     } else {
       this.colorSwitcherClassInstance.setSwitcherColor(settings.primaryColor);
       this.colorSwitcherClassInstance.setSwitcherColor(settings.secondaryColor, true);
@@ -113,6 +119,8 @@ export default class ApplicationClass {
       this.fieldSizeClassInstance.setFieldSize('32x32');
       this.framesClassInstance.generateFramesList([]);
     }
+
+    this.previewClassInstance.changeFps(settings.fps);
   }
 
   setPaletteState(paletteState) {
@@ -200,6 +208,7 @@ export default class ApplicationClass {
     // console.log('updateMainCanvas() toDataURL:', toDataURL);
     this.canvasClassInstance.clearCanvas();
     this.canvasClassInstance.drawImageOnCanvas(toDataURL);
+    this.previewClassInstance.changeFps(settings.fps);
     this.saveAppState();
   }
 

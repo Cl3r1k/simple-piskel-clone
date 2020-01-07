@@ -1,4 +1,4 @@
-import helper from '../src/common/helper';
+import { drawLineBH, convertHexToRGBA } from '../src/common/utils';
 
 describe('#drawLineBH()', () => {
   test(`it should call callback with straight values`, () => {
@@ -11,7 +11,7 @@ describe('#drawLineBH()', () => {
 
     // Act
     const spy = jest.spyOn(mock, 'mockDrawPixelCallback');
-    helper.drawLineBH(0, 0, 10, 0, 1, null, mock.mockDrawPixelCallback);
+    drawLineBH(0, 0, 10, 0, 1, null, mock.mockDrawPixelCallback);
 
     // Assert
     expect(spy).toHaveBeenCalled();
@@ -27,7 +27,7 @@ describe('#drawLineBH()', () => {
 
     // Act
     const spy = jest.spyOn(mock, 'mockDrawPixelCallback');
-    helper.drawLineBH(10, 10, 0, 0, 1, null, mock.mockDrawPixelCallback);
+    drawLineBH(10, 10, 0, 0, 1, null, mock.mockDrawPixelCallback);
 
     // Assert
     expect(spy).toHaveBeenCalled();
@@ -39,7 +39,7 @@ describe('#convertHexToRGBA()', () => {
     // Arrange
 
     // Act
-    const result = helper.convertHexToRGBA('ffffff');
+    const result = convertHexToRGBA('ffffff');
 
     // Assert
     expect(result).toEqual('rgba(255, 255, 255, 255)');
@@ -47,7 +47,7 @@ describe('#convertHexToRGBA()', () => {
 
   test(`it should return converted color from '000000' to 'rgba(0, 0, 0, 255)'`, () => {
     // Arrange
-    const result = helper.convertHexToRGBA('000000');
+    const result = convertHexToRGBA('000000');
 
     // Act
 

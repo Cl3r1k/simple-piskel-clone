@@ -1,5 +1,5 @@
 import settings from '../../../js/settings/settings';
-import helper from '../../../common/helper';
+import { drawLineBH } from '../../../common/utils';
 
 export default class EraserClass {
   constructor(applicationRef) {
@@ -16,7 +16,7 @@ export default class EraserClass {
     const newX = Math.floor(offsetX / settings.fieldSize);
     const newY = Math.floor(offsetY / settings.fieldSize);
     // console.log(`clearRect(${newX}, ${newY}, 1, 1)`);
-    helper.drawLineBH(settings.lastX, settings.lastY, newX, newY, settings.pixelSize, canvasContext, this.erasePixel);
+    drawLineBH(settings.lastX, settings.lastY, newX, newY, settings.pixelSize, canvasContext, this.erasePixel);
     settings.lastX = newX;
     settings.lastY = newY;
   }

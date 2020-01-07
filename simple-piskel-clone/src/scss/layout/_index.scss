@@ -253,6 +253,73 @@
 }
 // --- END Color Selector Component ---
 
+
+// --- Canvas Component ---
+.canvas-main {
+    width: 512px;
+    height: 512px;
+    image-rendering: pixelated;
+    background: url('../../assets/images/grid_template.png');
+}
+// --- END Canvas Component ---
+
+// --- Preview Component ---
+.preview-column {
+    background-color: #3a3a3a;
+    align-self: start;
+    margin: 20px 20px 10px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    position: relative;
+    .preview-canvas {
+        width: 100%;
+        image-rendering: pixelated;
+        background: url('../../assets/images/grid_template.png');
+    }
+    &:hover {
+        .preview-icon-layout {
+            display: block;
+        }
+    }
+    .preview-icon-layout {
+        width: 22px;
+        height: 22px;
+        line-height: 22px;
+        border: 2px solid white;
+        background-color: rgba(0,0,0,0.3);
+        cursor: pointer;
+        display: none;
+        &.preview-fullscreen {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-image: url('../../assets/images/sprites_icons.png');
+            background-position: -295px -183px;
+            &:hover {
+                border-color: $selectedBorderColor;
+            }
+        }
+    }
+    .preview-fps-container {
+        padding: 5px 10px 5px 5px;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        .preview-display-fps {
+            font-size: 14px;
+            min-width: 50px;
+            vertical-align: bottom;
+            line-height: 26px;
+            color: #cccccc;
+            text-align: center;
+            text-transform: uppercase;
+        }
+        .preview-range-fps {
+            //
+        }
+    }
+}
+// --- END Preview Component ---
+
 .list-block-styled {
     box-shadow: 0px 0px 9px #aba7a7;
     -webkit-touch-callout: none; /* iOS Safari */
@@ -404,7 +471,7 @@
     }
     .columns-wrapper {
         display: grid;
-        grid-template-columns: auto 1fr 20%;
+        grid-template-columns: auto 1fr auto;
         .canvas-column {
             display: grid;
             justify-content: center;
@@ -412,14 +479,6 @@
             background-color: #a0a0a0;
             border-bottom-right-radius: 3px;
             border-bottom-left-radius: 3px;
-            .canvas-main {
-                width: 512px;
-                height: 512px;
-                // background-color: $canvas-bg-color;
-                // border: 1px solid #b8b8b8;
-                image-rendering: pixelated;
-                background: url('../../assets/images/grid_template.png');
-            }
         }
     }    
     .actions-container {

@@ -5,7 +5,7 @@ import './scss/main.scss';
 import ApplicationClass from './gui/ApplicationClass';
 import AuthClass from './js/AuthClass';
 
-// TODO: Use container handlers for tools, frames and animation, not separate eventListeners
+// TODO: Use container handlers for tools, frames and preview, not separate eventListeners
 // TODO: Improve paint/erase fro mouse out case
 
 // let paletteClassInstance;

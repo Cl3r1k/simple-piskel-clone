@@ -1,5 +1,5 @@
 import settings from '../../../js/settings/settings';
-import helper from '../../../common/helper';
+import { drawLineBH } from '../../../common/utils';
 
 export default class PenClass {
   constructor(applicationRef) {
@@ -19,10 +19,10 @@ export default class PenClass {
     const newY = Math.floor(offsetY / settings.fieldSize);
     if (canvasContext.fillStyle === settings.transparentColorRGBA) {
       // console.log('CallBack: this.erasePixel???');
-      helper.drawLineBH(settings.lastX, settings.lastY, newX, newY, settings.pixelSize, canvasContext, this.clearPixel);
+      drawLineBH(settings.lastX, settings.lastY, newX, newY, settings.pixelSize, canvasContext, this.clearPixel);
     } else {
       // console.log('CallBack: this.drawPixel???');
-      helper.drawLineBH(settings.lastX, settings.lastY, newX, newY, settings.pixelSize, canvasContext, this.drawPixel);
+      drawLineBH(settings.lastX, settings.lastY, newX, newY, settings.pixelSize, canvasContext, this.drawPixel);
     }
 
     settings.lastX = newX;

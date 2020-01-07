@@ -21,6 +21,8 @@ const settings = {
   selectedTool: 0,
   frames: [],
   selectedFrame: 0,
+  isPlaying: false,
+  fps: 10,
 };
 
 export default settings;

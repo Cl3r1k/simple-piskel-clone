@@ -1,5 +1,5 @@
 import settings from '../../../js/settings/settings';
-import helper from '../../../common/helper';
+import { convertHexToRGBA } from '../../../common/utils';
 
 export default class ColorSwitcherClass {
   constructor() {
@@ -13,7 +13,7 @@ export default class ColorSwitcherClass {
   setSwitcherColor(colorVal, isSecondary = false) {
     // console.log(`colorVal:${colorVal}, isSecondary:${isSecondary}`);
     if (colorVal.substr(0, 1) === '#') {
-      colorVal = helper.convertHexToRGBA(colorVal.substr(1));
+      colorVal = convertHexToRGBA(colorVal.substr(1));
       // console.log(`after convertHexToRGBA colorVal:${colorVal}`);
     }
     if (colorVal.indexOf('a') === -1) {

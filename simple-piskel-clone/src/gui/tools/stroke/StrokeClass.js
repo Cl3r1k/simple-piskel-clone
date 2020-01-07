@@ -1,5 +1,5 @@
 import settings from '../../../js/settings/settings';
-import helper from '../../../common/helper';
+import { drawLineBH } from '../../../common/utils';
 
 export default class StrokeClass {
   constructor(applicationRef) {
@@ -20,10 +20,10 @@ export default class StrokeClass {
     // const newY = Math.floor(offsetY / settings.fieldSize);
     if (canvasContext.fillStyle === settings.transparentColorRGBA) {
       // console.log('CallBack: this.erasePixel???');
-      helper.drawLineBH(startX, startY, endX, endY, settings.pixelSize, canvasContext, this.clearPixel);
+      drawLineBH(startX, startY, endX, endY, settings.pixelSize, canvasContext, this.clearPixel);
     } else {
       // console.log('CallBack: this.drawPixel???');
-      helper.drawLineBH(startX, startY, endX, endY, settings.pixelSize, canvasContext, this.drawPixel);
+      drawLineBH(startX, startY, endX, endY, settings.pixelSize, canvasContext, this.drawPixel);
     }
 
     // settings.lastX = newX;

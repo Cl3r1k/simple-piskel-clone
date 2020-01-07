@@ -41,7 +41,4 @@ const convertHexToRGBA = hexStr => {
   )}, ${IndexesInHexColorData.alpha.value})`;
 };
 
-export default {
-  drawLineBH,
-  convertHexToRGBA,
-};
+export { drawLineBH, convertHexToRGBA };
