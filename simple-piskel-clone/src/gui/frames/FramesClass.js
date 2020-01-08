@@ -14,6 +14,9 @@ export default class FramesClass {
     const currentFrameCanvasElement = this.framesComponentElement.querySelector(`[data-frame="${index}"] > canvas`);
     const currentFrameContext = currentFrameCanvasElement.getContext('2d');
 
+    // Clear canvas any-way cause, if pixel was erased or filled by 'transparent color', canvas is not updated properly
+    this.clearCanvas(currentFrameContext, currentFrameCanvasElement.width, currentFrameCanvasElement.height);
+
     this.drawImageOnCanvas(
       toDataURL,
       currentFrameContext,
@@ -173,6 +176,21 @@ export default class FramesClass {
       const frameNumberElement = frameElement.querySelector('span');
       frameNumberElement.textContent = index + 1;
       frameElement.dataset.frame = index;
+    });
+  }
+
+  setFramesFieldSize(frameFieldSize) {
+    const frameCanvasElements = this.framesComponentElement.querySelectorAll('.frame-canvas');
+    frameCanvasElements.forEach((frameCanvasElement, index) => {
+      frameCanvasElement.width = settings.canvasMarkupSize / frameFieldSize;
+      frameCanvasElement.height = settings.canvasMarkupSize / frameFieldSize;
+      const frameCanvasContext = frameCanvasElement.getContext('2d');
+      this.drawImageOnCanvas(
+        settings.frames[index],
+        frameCanvasContext,
+        frameCanvasElement.width,
+        frameCanvasElement.height,
+      );
     });
   }
 

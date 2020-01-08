@@ -23,6 +23,7 @@ const settings = {
   selectedFrame: 0,
   isPlaying: false,
   fps: 10,
+  isLandingSkip: false,
 };
 
 export default settings;

@@ -1,4 +1,5 @@
 import settings from '../common/settings/settings';
+import LandingClass from './landing/LandingClass';
 import CanvasClass from './canvas/CanvasClass';
 import PenSizeClass from './tools/pen-size/PenSizeClass';
 import FieldSizeClass from './actions/field-size/FieldSizeClass';
@@ -13,10 +14,14 @@ import PreviewClass from './preview/PreviewClass';
 import HotkeysClass from './actions/hotkeys/HotkeysClass';
 
 const APPLICATION_SAVE_NAME = 'applicationState';
-const CANVAS_SAVE_NAME = 'canvasImage';
+const DEFAULT_PIXEL_SIZE = 1;
+const DEFAULT_FIELD_SIZE = 8;
+const DEFAULT_SELECTED_FRAME = 0;
+const DEFAULT_PALETTE_TOOL = 0;
 
 export default class ApplicationClass {
   initApp() {
+    this.landingClassInstance = new LandingClass();
     this.colorSwitcherClassInstance = new ColorSwitcherClass();
     this.penClassInstance = new PenClass(this);
     this.eraserClassInstance = new EraserClass(this);
@@ -32,7 +37,7 @@ export default class ApplicationClass {
       this.strokeClassInstance,
     );
     this.penSizeClassInstance = new PenSizeClass();
-    this.fieldSizeClassInstance = new FieldSizeClass(this.canvasClassInstance);
+    this.fieldSizeClassInstance = new FieldSizeClass(this);
     this.framesClassInstance = new FramesClass(this);
     this.previewClassInstance = new PreviewClass(this);
     this.hotkeysClassInstance = new HotkeysClass(this, this.penSizeClassInstance, this.framesClassInstance);
@@ -42,6 +47,7 @@ export default class ApplicationClass {
 
   saveAppState() {
     try {
+      // console.log('saveAppState() settings.fps', settings.fps);
       localStorage.setItem(
         APPLICATION_SAVE_NAME,
         JSON.stringify({
@@ -53,6 +59,7 @@ export default class ApplicationClass {
           frames: settings.frames,
           selectedFrame: settings.selectedFrame,
           fps: settings.fps,
+          isLandingSkip: settings.isLandingSkip,
         }),
       );
     } catch (err) {
@@ -61,34 +68,30 @@ export default class ApplicationClass {
   }
 
   loadAppSate() {
-    const canvasImageData = localStorage.getItem(CANVAS_SAVE_NAME);
     const applicationData = localStorage.getItem(APPLICATION_SAVE_NAME);
-
-    if (canvasImageData) {
-      // TODO: Improve canvasSize change for two variants of size change (scale and not scale)
-      // this.canvasClassInstance.drawImageOnCanvas(canvasImageData);
-    }
 
     if (applicationData) {
       const appSettings = JSON.parse(applicationData);
       this.setPaletteState(appSettings.tool);
       this.colorSwitcherClassInstance.setSwitcherColor(appSettings.primaryColor);
       this.colorSwitcherClassInstance.setSwitcherColor(appSettings.secondaryColor, true);
-      this.penSizeClassInstance.setPixelSize(appSettings.pixelSize ? appSettings.pixelSize : 1);
-      this.fieldSizeClassInstance.setFieldSize(appSettings.fieldSize ? appSettings.fieldSize : '32x32');
-      settings.selectedFrame = appSettings.selectedFrame || 0;
+      this.penSizeClassInstance.setPixelSize(appSettings.pixelSize ? appSettings.pixelSize : DEFAULT_PIXEL_SIZE);
+      this.fieldSizeClassInstance.setFieldSize(appSettings.fieldSize ? appSettings.fieldSize : DEFAULT_FIELD_SIZE);
+      settings.selectedFrame = appSettings.selectedFrame || DEFAULT_SELECTED_FRAME;
       this.framesClassInstance.generateFramesList(appSettings.frames || []);
-      settings.fps = appSettings.fps || 10;
+      settings.fps = appSettings.fps;
+      if (appSettings.isLandingSkip) {
+        this.landingClassInstance.showApp();
+      }
+      this.previewClassInstance.changeFps(settings.fps);
     } else {
       this.colorSwitcherClassInstance.setSwitcherColor(settings.primaryColor);
       this.colorSwitcherClassInstance.setSwitcherColor(settings.secondaryColor, true);
-      this.setPaletteState(0);
-      this.penSizeClassInstance.setPixelSize(1);
-      this.fieldSizeClassInstance.setFieldSize('32x32');
+      this.setPaletteState(DEFAULT_PALETTE_TOOL);
+      this.penSizeClassInstance.setPixelSize(DEFAULT_PIXEL_SIZE);
+      this.fieldSizeClassInstance.setFieldSize(DEFAULT_FIELD_SIZE);
       this.framesClassInstance.generateFramesList([]);
     }
-
-    this.previewClassInstance.changeFps(settings.fps);
   }
 
   setPaletteState(paletteState) {
@@ -173,6 +176,11 @@ export default class ApplicationClass {
     this.canvasClassInstance.drawImageOnCanvas(toDataURL);
     this.previewClassInstance.changeFps(settings.fps);
     this.saveAppState();
+  }
+
+  setFieldSize(fieldSize) {
+    this.canvasClassInstance.setCanvasFieldSize(fieldSize);
+    this.framesClassInstance.setFramesFieldSize(fieldSize);
   }
 
   resetCanvasState() {

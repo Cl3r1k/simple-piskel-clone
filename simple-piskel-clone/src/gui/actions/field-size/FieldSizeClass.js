@@ -1,10 +1,10 @@
 import settings from '../../../common/settings/settings';
 
 export default class FieldSizeClass {
-  constructor(canvasClassInstanceRef) {
+  constructor(applicationRef) {
     this.fieldSizeContainerElement = document.getElementById('idFieldSizeContainer');
     this.fieldSizeContainerElement.addEventListener('click', evt => this.fieldSizeContainerClickHandler(evt, this));
-    this.canvasClassInstanceRef = canvasClassInstanceRef;
+    this.applicationRef = applicationRef;
   }
 
   setFieldSize(fieldSize) {
@@ -24,7 +24,8 @@ export default class FieldSizeClass {
         break;
     }
     this.setSelectedElement(fieldSize);
-    this.canvasClassInstanceRef.setCanvasFieldSize(settings.fieldSize);
+    // this.canvasClassInstanceRef.setCanvasFieldSize(settings.fieldSize);
+    this.applicationRef.setFieldSize(settings.fieldSize);
   }
 
   fieldSizeContainerClickHandler(evt, classScope) {

@@ -1,7 +1,5 @@
 import settings from '../../common/settings/settings';
 
-const CANVAS_SAVE_NAME = 'canvasImage';
-
 export default class CanvasClass {
   constructor(
     applicationRef,
@@ -112,14 +110,12 @@ export default class CanvasClass {
   }
 
   setCanvasFieldSize(canvasFieldSize) {
+    const canvasImageData = this.canvasElement.toDataURL();
+
     this.canvasElement.width = settings.canvasMarkupSize / canvasFieldSize;
     this.canvasElement.height = settings.canvasMarkupSize / canvasFieldSize;
 
-    const canvasImageData = localStorage.getItem(CANVAS_SAVE_NAME);
-
-    if (canvasImageData) {
-      this.drawImageOnCanvas(canvasImageData);
-    }
+    this.drawImageOnCanvas(canvasImageData);
   }
 
   drawImageOnCanvas(canvasImageData) {

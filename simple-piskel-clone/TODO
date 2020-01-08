@@ -138,7 +138,7 @@ Todo:
       
       Normal scope:      
       `Max - **+180**`
-      ☐ Landing Page is presented will all needed information: **+20 points.**
+      ✔ Landing Page is presented will all needed information: **+20 points.**
       ✔ `Frames` functionality
         ✔ add frame - **+15**
         ✔ delete a frame - **+15**
@@ -150,10 +150,10 @@ Todo:
         ✔ Ability to run the animation in Full screen mode - **+10**
       ☐ Keyboard shotcuts
         ✔ All actions should be available via keyboard shortcuts **+10**
-        ☐ Modal window to change keyboard shortcuts **+10**  <========================================================= CURRENT TASK
+        ☐ Modal window to change keyboard shortcuts **+10**
       ✔ Save user session in localstorage **+10**
       ☐ Unit tests
-        ☐ write 20 unit tests for utils functions and ui components **+10**
+        ☐ write 20 unit tests for utils functions and ui components **+10**  <========================================================= CURRENT TASK
       
       
       Extra (additional) scope:
@@ -183,13 +183,14 @@ Todo:
 
 
     Additional:
-      ☐ TODO: change all export from defaul to named import
-      ☐ TODO: improve/fix 'size-change'
-      ☐ TODO: bug with erase (current frame is not updated)
-      ☐ TODO: refactor (move methods from classes to utils.js):
-        ☐ TODO: drawImageOnCanvas()
-        ☐ TODO: clearCanvas()
-      ☐ TODO: Improve paint/erase for mouse out case
+      ✘ change all export from defaul to named import @cancelled
+      ✔ improve/fix 'size-change'
+      ✔ bug with erase (current frame is not updated)
+      ☐ refactor (move methods from classes to utils.js):
+        ☐ drawImageOnCanvas()
+        ☐ clearCanvas()
+      ☐ Improve paint/erase for mouse out case
+      ☐ In far far future use `https://onlinepngtools.com/convert-png-to-data-uri` for landing examples
 
 
     `Useful links`

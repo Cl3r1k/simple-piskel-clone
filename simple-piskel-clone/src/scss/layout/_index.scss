@@ -54,7 +54,7 @@
             display: inherit;
             width: 100%;
             height: 100%;
-            background-color: #fff;
+            background-color: $mainFontColor;
         }
         &.selected {
             border-color: $selectedBorderColor;
@@ -309,12 +309,9 @@
             min-width: 50px;
             vertical-align: bottom;
             line-height: 26px;
-            color: #cccccc;
+            color: $greyColor;
             text-align: center;
             text-transform: uppercase;
-        }
-        .preview-range-fps {
-            //
         }
     }
 }
@@ -352,7 +349,7 @@
                 background-color: $hoverBgColor;
             }
             &.disabled-item {
-                background-color: #fff;
+                background-color: $mainFontColor;
                 cursor: default;
                 opacity: 0.5;
             }
@@ -424,38 +421,157 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    background-color: #eeeeee;
-    box-shadow: inset 0px -10px 8px -10px #aba7a7,
-                0px 0px 9px #aba7a7;
-    .main-menu {
-        cursor: pointer;
-        &:hover {
-            background-color: $hoverBgColor;
-        }
-    }
-    &__header-text {
+    background-color: lighten($color: $mainBgColor, $amount: 10);
+    padding-left: 20px;
+    .header-text {
         font-family: Roboto;
         font-style: normal;
         font-weight: 500;
         font-size: 20px;
         line-height: 23px;
-        color: rgba(0, 0, 0, 0.87);
+        color: $mainFontColor;
         flex-grow: 1;
+        margin-left: 5px;
     }
     .additional-menu {
         padding-right: 10px;
         cursor: pointer;
-        &__icon {
-            padding-left: 10px;
+    }
+}
+
+// --- Landing Component ---
+.landing-container {
+    display: grid;
+    background-color: $mainBgColor;
+    color: $mainFontColor;
+    &.hidden {
+        display: none;
+    }
+    .description-container {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-gap: 10px;
+        background-color: $lightenBgColor;
+        height: 430px;
+        padding: 30px 20px 0 20px;
+        box-sizing: border-box;
+        overflow: hidden;
+        .description-info {
+            .description-info-main {
+                font-size: 44px;
+                margin-bottom: 20px;
+                font-weight: normal;
+                .bold-text {
+                    font-weight: bold;
+                }
+            }
+            .description-info-additional {
+                margin-bottom: 20px;
+                font-size: 25px;
+            }
+        }
+        .description-image {
+            width: 100%;
+        }
+    }
+    .examples-container {
+        display: grid;
+        grid-template-rows: auto auto auto;
+        justify-content: center;
+        align-items: start;
+        padding: 30px 0;
+        .examples-header {
+            font-size: 1.3em;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .examples-info {
+            font-size: 16px;
+            color: $greyColor;
+        }
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(6, auto);
+            grid-gap: 15px;
+            .card-example {
+                display: grid;
+                grid-template-rows: auto auto;
+                background-color: $hoverBgColor;
+                padding: 3px;
+                border-radius: 3px;
+                cursor: pointer;
+                transition: 0.1s linear;
+                &:hover {
+                    background-color: darken($color: $hoverBgColor, $amount: 20);
+                }
+                .card-example-image {
+                    width: 115px;
+                    height: 115px;
+                    border-radius: 3px;
+                }
+                .card-example-name {
+                    font-size: 12px;
+                    font-weight: bold;
+                    text-align: center;
+                    margin: 5px 0 2px 0;
+                }
+            }
+        }
+    }
+    .features-container {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        justify-content: center;
+        grid-template-rows: auto auto;
+        align-items: center;
+        padding-top: 40px;
+        background-color: darken($color: $mainBgColor, $amount: 7);
+        padding: 30px 0;
+        .card-feature {
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+            margin: 5px;
+            width: 500px;
+            justify-self: flex-end;
+            text-align: end;
+            &.reverse-flow {
+                flex-direction: row-reverse;
+                justify-self: flex-start;
+                text-align: start;
+            }
+            .card-feature-text {
+                width: 100%;
+                padding: 0px 10px;
+                .card-feature-header {
+                    font-size: 1.3em;
+                    margin: 10px 0;
+                }
+                .card-feature-info {
+                    margin: 10px 0;
+                    font-size: 14px;
+                }
+            }
+            .card-feature-image {
+                width: 100px;
+                height: 100px;
+                background-color: $hoverBgColor;
+                border: 3px solid $mainFontColor;
+                border-radius: 3px;
+            }
         }
     }
 }
+// --- END Landing Component ---
 
 .main-container {
     display: grid;
     grid-template-columns: auto 1fr auto;
     padding: 0 50px;
     background-color: $mainBgColor;
+    &.hidden {
+        display: none;
+    }
     @media screen and (max-width: $preTablet1020) {
         grid-template-columns: none;
         padding: 20px;
@@ -494,5 +610,6 @@
         text-align: center;
         font-weight: 700;
         font-size: 14px;
+        color: #839689;
     }
 }

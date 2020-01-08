@@ -13,17 +13,104 @@
 
 <body id="idBody" class="body">
     <header class="header-container wrapper">
-        <div class="main-menu">
-            <img class="main-menu__icon" src="./assets/images/nav_icon.png" alt="nav icon">
-        </div>
-        <h1 class="header-container__header-text">Simple Piskel-clone</h1>
+        <img src="./assets/images/favicon.ico" alt="logo" width="30">
+        <h1 class="header-text">Simple Piskel-clone</h1>
         <div class="additional-menu">
-            <button id="idLoginGHButton" class="button-styled">Login with GitHub</button>
-            <img class="additional-menu__icon" src="./assets/images/three_dot_icon.png" alt="additional menu">
+            <button class="button-styled">Create Sprite</button>
+            <button id="idLoginGHButton" class="button-styled">Sign in</button>
         </div>
     </header>
 
-    <main class="main-container wrapper">
+    <landing id='idLanding' class="landing-container">
+        <div class="description-container">
+            <div class="description-info">
+                <h2 class="description-info-main">Piskel-clone is a <span class="bold-text">free online editor</span>
+                    for
+                    <span class="bold-text">animated sprites & pixel art</span></h2>
+                <p class="description-info-additional">Create animations in your browser.<br>
+                    Simply create a new sprite or use Google sign to sign in.</p>
+                <div class="buttons-container">
+                    <button class="button-styled large-button">Sign in</button>
+                    <button class="button-styled large-button">Create Sprite</button>
+                </div>
+            </div>
+            <img class="description-image" src="./src/gui/landing/images/screenshot_with_browser_ui_generic.png"
+                alt="description image">
+        </div>
+        <div class="examples-container">
+            <h3 class="examples-header">Example sprites</h3>
+            <p class="examples-info">Here are some examples of user submitted sprites.</p>
+            <div class="cards-container">
+                <section class="card-example">
+                    <img class="card-example-image" src="./src/gui/landing/images/example1.gif"
+                        alt="Example image">
+                    <span class="card-example-name">Example 1</span>
+                </section>
+                <section class="card-example">
+                    <img class="card-example-image" src="./src/gui/landing/images/example2.gif"
+                        alt="Example image">
+                    <span class="card-example-name">Example 2</span>
+                </section>
+                <section class="card-example">
+                    <img class="card-example-image" src="./src/gui/landing/images/example3.gif"
+                        alt="Example image">
+                    <span class="card-example-name">Example 3</span>
+                </section>
+                <section class="card-example">
+                    <img class="card-example-image" src="./src/gui/landing/images/example4.gif"
+                        alt="Example image">
+                    <span class="card-example-name">Example 4</span>
+                </section>
+                <section class="card-example">
+                    <img class="card-example-image" src="./src/gui/landing/images/example5.gif"
+                        alt="Example image">
+                    <span class="card-example-name">Example 5</span>
+                </section>
+                <section class="card-example">
+                    <img class="card-example-image" src="./src/gui/landing/images/example6.gif"
+                        alt="Example image">
+                    <span class="card-example-name">Example 6</span>
+                </section>
+            </div>
+        </div>
+        <div class="features-container">
+            <section class="card-feature">
+                <div class="card-feature-text">
+                    <h3 class="card-feature-header">Live preview</h3>
+                    <p class="card-feature-info">Check a preview of your animation in real time as you draw. Adjust the
+                        frame delay on the fly.</p>
+                </div>
+                <img class="card-feature-image" src="./src/gui/landing/images/feature-live-preview.gif" alt="feature image">
+            </section>
+            <section class="card-feature reverse-flow">
+                <div class="card-feature-text">
+                    <h3 class="card-feature-header">Google Sign in</h3>
+                    <p class="card-feature-info">No need to remember yet another password, just use your Google account
+                        to
+                        sign in.</p>
+                </div>
+                <img class="card-feature-image" src="./src/gui/landing/images/feature-google-sign-in@2x.png"
+                    alt="feature image">
+            </section>
+            <section class="card-feature">
+                <div class="card-feature-text">
+                    <h3 class="card-feature-header">Export to GIF, PNG...</h3>
+                    <p class="card-feature-info">Several export modes supported. Animated GIFs for sharing, spritesheet
+                        PNG/ZIP for bigger projects etc…</p>
+                </div>
+                <img class="card-feature-image" src="./src/gui/landing/images/feature-export-gold@2x.png" alt="feature image">
+            </section>
+            <section class="card-feature reverse-flow">
+                <div class="card-feature-text">
+                    <h3 class="card-feature-header">Open Source</h3>
+                    <p class="card-feature-info">All the code is open-source and available on GitHub.</p>
+                </div>
+                <img class="card-feature-image" src="./src/gui/landing/images/feature-open-source@2x.gif" alt="feature image">
+            </section>
+        </div>
+    </landing>
+
+    <main id="idMain" class="main-container wrapper hidden">
         <div class="tools-container">
             <div id="idPenSizeContainer" class="pen-size-container">
                 <div class="pen-size-option" data-pen-size="1"></div>
@@ -54,18 +141,7 @@
 
         <div class="columns-wrapper">
             <div id="idFramesComponent" class="frames-column">
-                <ul class="frames-list dropzone">
-                    <!-- <li class="frame selected draggable" draggable="true">
-                        <canvas id="idCurrentFrame" width="95" height="95" class="frame-canvas" data-frame="0"></canvas>
-                        <span class="frame-icon-layout frame-number">1</span>
-                        <button class="frame-icon-layout frame-delete"></button>
-                        <button class="frame-icon-layout frame-copy"></button>
-                        <button class="frame-icon-layout frame-move" draggable="true"></button>
-                    </li> -->
-                    <!-- <li class="frame">
-                        <canvas width="95" height="95" class="frame-canvas"></canvas>
-                    </li> -->
-                </ul>
+                <ul class="frames-list dropzone"></ul>
                 <button id='idAddNewFrame' class="frame-new">Add new frame</button>
             </div>
             <div class="canvas-column">
@@ -91,18 +167,6 @@
                         src="./assets/images/picture_icon.png" alt="picture_icon"><span>128x128</span></li>
             </ul>
         </div>
-        <!-- <div class="canvas-size-container">
-            <div class="list-block-styled">
-                <ul class="list-block-styled__common-list">
-                    <li id="btnSize32x32" data-field-size="32x32"><img src="./assets/images/picture_icon.png"
-                            alt="picture_icon"><span>32x32</span></li>
-                    <li id="btnSize64x64" data-field-size="64x64"><img src="./assets/images/picture_icon.png"
-                            alt="picture_icon"><span>64x64</span></li>
-                    <li id="btnSize128x128" data-field-size="128x128"><img src="./assets/images/picture_icon.png"
-                            alt="picture_icon"><span>128x128</span></li>
-                </ul>
-            </div>
-        </div> -->
     </main>
 
     <footer class="footer-container wrapper">

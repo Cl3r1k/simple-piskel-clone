@@ -1,5 +1,4 @@
 import settings from '../../common/settings/settings';
-import FpsControlClass from './FpsControlClass';
 
 export default class PreviewClass {
   constructor(applicationRef) {
@@ -14,7 +13,8 @@ export default class PreviewClass {
     this.previewCanvasElement = this.previewComponentElement.querySelector('canvas');
     this.previewCanvasContext = this.previewCanvasElement.getContext('2d');
 
-    this.fpsControlClassInstance = new FpsControlClass(10, this);
+    this.then = null;
+    this.currentFrame = -1;
   }
 
   toggleFullScreen() {
@@ -22,6 +22,53 @@ export default class PreviewClass {
       this.previewCanvasElement.requestFullscreen();
     } else if (document.exitFullscreen) {
       document.exitFullscreen();
+    }
+  }
+
+  animate() {
+    if (!settings.isPlaying) {
+      return;
+    }
+
+    this.fpsInterval = 1000 / settings.fps;
+
+    // request another frame
+    requestAnimationFrame(this.animate.bind(this));
+
+    // calc elapsed time since last loop
+    const now = Date.now();
+    const elapsed = now - this.then;
+
+    // if enough time has elapsed, draw the next frame
+    if (elapsed > this.fpsInterval) {
+      // Get ready for next frame by setting then=now, but...
+      // Also, adjust for fpsInterval not being multiple of 16.67
+      this.then = now - (elapsed % this.fpsInterval);
+
+      if (this.currentFrame >= settings.frames.length - 1) {
+        this.currentFrame = 0;
+      } else {
+        this.currentFrame++;
+      }
+
+      this.animatePreview(this.currentFrame);
+    }
+  }
+
+  startAnimating() {
+    if (!settings.isPlaying && settings.frames.length > 1) {
+      settings.isPlaying = true;
+      this.fpsInterval = 1000 / settings.fps;
+      this.then = Date.now();
+      this.animate();
+    }
+  }
+
+  stopAnimating() {
+    if (settings.isPlaying) {
+      settings.isPlaying = false;
+      this.then = null;
+      this.currentFrame = -1;
     }
   }
 
@@ -34,20 +81,9 @@ export default class PreviewClass {
     this.drawImageOnCanvas(settings.frames[currentPreviewFrame], this.previewCanvasContext, width, height);
   }
 
-  startAnimating() {
-    if (!settings.isPlaying && settings.frames.length > 1) {
-      this.fpsControlClassInstance.start();
-    }
-  }
-
-  stopAnimating() {
-    this.fpsControlClassInstance.stop();
-  }
-
   changeFps(newFps) {
     settings.fps = newFps;
     this.previewDisplayFpsElement.textContent = `${newFps} fps`;
-    this.fpsControlClassInstance.setFps(newFps);
 
     if (newFps === 0 || settings.frames.length === 1) {
       this.stopAnimating();
