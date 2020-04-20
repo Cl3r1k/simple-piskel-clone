@@ -60,7 +60,7 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       { from: 'assets', to: 'assets' },
-      // { from: 'other', to: 'public' },
+      // { from: './src/gui/landing/images/', to: './src/gui/landing/images/' },
     ]),
   ],
 };
