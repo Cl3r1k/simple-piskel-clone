@@ -1,4 +1,5 @@
 {
+    "homepage": "https://cl3r1k.github.io/simple-piskel-clone/",
     "name": "simple-piskel-clone",
     "version": "1.0.0",
     "description": "Simple Piskel-clone",
@@ -7,7 +8,9 @@
     "license": "ISC",
     "scripts": {
         "build": "webpack",
-        "start": "webpack --watch",
+        "start": "webpack-dev-server --hot --mode development --open",
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d dist",
         "lint": "eslint --debug src/",
         "lint:fix": "eslint --fix --debug ./src",
         "prettier": "prettier --write src/**/*.js",
@@ -45,6 +48,7 @@
         "@babel/preset-env": "^7.7.6",
         "babel-eslint": "^10.0.3",
         "babel-loader": "^8.0.6",
+        "copy-webpack-plugin": "^5.1.1",
         "css-loader": "^3.2.0",
         "eslint": "^6.6.0",
         "eslint-config-airbnb-base": "^14.0.0",
@@ -54,6 +58,8 @@
         "eslint-plugin-prettier": "^3.1.1",
         "extract-text-webpack-plugin": "^4.0.0-beta.0",
         "file-loader": "^5.0.2",
+        "gh-pages": "^2.2.0",
+        "html-webpack-plugin": "^4.2.0",
         "husky": "^1.1.2",
         "jest": "^24.9.0",
         "lint-staged": "^7.3.0",
@@ -63,6 +69,7 @@
         "sass-loader": "^8.0.0",
         "style-loader": "^1.0.0",
         "webpack": "^4.41.2",
-        "webpack-cli": "^3.3.9"
+        "webpack-cli": "^3.3.9",
+        "webpack-dev-server": "^3.10.3"
     }
 }
